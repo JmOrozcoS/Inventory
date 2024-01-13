@@ -60,8 +60,8 @@ class ControladorCostos
 		if (isset($_POST["nuevoCostoInventario"])) {
 
 			/*=============================================
-														 ACTUALIZAR LAS COMPRAS DEL CLIENTE Y REDUCIR EL STOCK Y AUMENTAR LAS VENTAS DE LOS PRODUCTOS
-														 =============================================*/
+						ACTUALIZAR LAS COMPRAS DEL CLIENTE Y REDUCIR EL STOCK Y AUMENTAR LAS VENTAS DE LOS PRODUCTOS
+						 =============================================*/
 
 			$listaProductos = json_decode($_POST["listaProductos"], true);
 
@@ -79,9 +79,8 @@ class ControladorCostos
 				$traerProducto = ModeloProductos::mdlMostrarProductos($tablaProductos, $item, $valor);
 
 				/*$item1a = "ventas";
-																			$valor1a = $value["cantidad"] + $traerProducto["ventas"];
-
-																			$nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);*/
+					$valor1a = $value["cantidad"] + $traerProducto["ventas"];
+					$nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);*/
 
 				$item1b = "stock";
 				$valor1b = $value["stock"];
@@ -114,8 +113,8 @@ class ControladorCostos
 			$fechaProveedor = ModeloProveedores::mdlActualizarProveedor($tablaProveedores, $item2b, $valor1b, $valor);
 
 			/*=============================================
-														 GUARDAR LA COMPRA
-														 =============================================*/
+						GUARDAR LA COMPRA
+						=============================================*/
 
 			$tabla = "costos";
 

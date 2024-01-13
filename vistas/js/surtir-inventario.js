@@ -136,7 +136,7 @@ $(".tablaSurtirInventario tbody").on("click", "button.agregarProducto", function
 
 				'<div class="col-xs-2">' +
 
-				'<input type="number" class="form-control nuevaCantidadProducto" style="padding:0px 4px" name="nuevaCantidadProducto" min="1" value="0" stock="' + stock + '" nuevoStock="' + Number(stock + 1) + '" required style="padding-left:5px" placeholder="0" style="padding-right:5px" required>' +
+				'<input type="number" class="form-control nuevaCantidadProducto" style="padding:0px 4px" name="nuevaCantidadProducto"  value="0" stock="' + stock + '" nuevoStock="' + Number(stock + 1) + '" required style="padding-left:5px" placeholder="0" style="padding-right:5px" required>' +
 
 				'</div>' +
 
@@ -315,7 +315,7 @@ $(".btnAgregarProductoI").click(function () {
 
 				'<div class="col-xs-2 ingresoCantidad">' +
 
-				'<input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" value="1" stock nuevoStock required style="padding:0px 4px" placeholder="0">' +
+				'<input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto"  value="1" stock nuevoStock required style="padding:0px 4px" placeholder="0">' +
 
 				'</div>' +
 
