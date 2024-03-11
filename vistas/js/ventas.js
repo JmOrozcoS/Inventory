@@ -1304,4 +1304,17 @@ $(".daterangepicker.opensleft .ranges li").on("click", function () {
 })
 
 
+/*=============================================
+BOTON RENOVAR COSTO
+=============================================*/
+$(".tablas").on("click", ".btnRenovarCosto", function () {
+
+	var idCosto = $(this).attr("idCosto");
+
+	window.location = "index.php?ruta=renovar-costo&idCosto=" + idCosto;
+
+
+})
+
+
 

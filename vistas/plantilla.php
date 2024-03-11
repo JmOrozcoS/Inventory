@@ -161,6 +161,7 @@ CUERPO DOCUMENTO
          $_GET["ruta"] == "rentas" ||
          //$_GET["ruta"] == "categoriasproductos" ||
          $_GET["ruta"] == "surtir-inventario" ||
+         $_GET["ruta"] == "renovar-costo" ||
          $_GET["ruta"] == "editar-costo" ||
          $_GET["ruta"] == "proveedores" ||
          $_GET["ruta"] == "productos-mosaico" ||

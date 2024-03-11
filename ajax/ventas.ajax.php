@@ -28,6 +28,28 @@ class AjaxVentas{
 
 	}
 
+  /*=============================================
+    RENOVAR COSTO
+    =============================================*/	
+
+    public $activarCosto;
+    public $activarIdCosto;
+
+
+    public function ajaxActivarEstadoCosto(){
+
+      $tabla = "costos";
+
+      $item1 = "estado";
+      $valor1 = $this->activarCosto;
+
+      $item2 = "id";
+      $valor2 = $this->activarIdCosto;
+
+      $respuesta = ModeloCostos::mdlEditarEstadoCostos($tabla, $item1, $valor1, $item2, $valor2);
+
+	}
+
   }
 
 /*=============================================
@@ -40,6 +62,19 @@ if(isset($_POST["activarVenta"])){
 	$activarVenta -> activarVenta = $_POST["activarVenta"];
 	$activarVenta -> activarIdVenta = $_POST["activarIdVenta"];
 	$activarVenta -> ajaxActivarEstadoVenta();
+
+}
+
+/*=============================================
+RENOVAR COSTO
+=============================================*/
+
+if(isset($_POST["activarCosto"])){
+
+	$activarCosto = new AjaxVentas();
+	$activarCosto -> activarCosto = $_POST["activarCosto"];
+	$activarCosto -> activarIdCosto = $_POST["activarIdCosto"];
+	$activarCosto -> ajaxActivarEstadoCosto();
 
 }
 

@@ -393,11 +393,12 @@ if ($_SESSION["perfil"] == "Especial") {
                   <th><i class="fa fa-truck"></i> Proveedor</th>
                   <th><i class="fa fa-cube"></i> Productos</th>
                   <th><i class="fa fa-file-text-o"></i> Comentario</th>
-                  <th><i class="fa fa-usd"></i> Subtotal</th>
                   <th><i class="fa fa-money"></i> Total</th>
-                  <th><i class="fa fa-cc-visa"></i> Forma de pago</th>
+                  <th><i class="fa fa-cc-visa"></i> F. Pago</th>
                   <th><i class="fa fa-user"></i> Usuario</th>
                   <th><i class="fa fa-calendar-o"></i> Fecha</th>
+                  <th><i class="fa fa-calendar-check-o"></i> F. Vence</th>
+                  <th><i class="fa fa-hourglass-2"></i> Estado</th>
                   <th><i class="fa fa-pencil-square-o"></i>Acciones</th>
 
                 </tr>
@@ -460,7 +461,6 @@ if ($_SESSION["perfil"] == "Especial") {
 
                     <td>' . $valueC["nombre_costo"] . '</td>
 
-                    <td>$ ' . number_format($valueC["neto"], 2) . '</td>
  
                    <td>$ ' . number_format($valueC["total"], 2) . '</td>
 
@@ -477,6 +477,89 @@ if ($_SESSION["perfil"] == "Especial") {
                   echo '<td>' . $respuestaUsuario["nombre"] . '</td>
  
                    <td>' . $valueC["fecha_crea"] . '</td>
+
+                   <td>' . $valueC["vencimiento"] . '</td>';
+
+                   $fecha_actual = new DateTime();
+
+              $fecha_Vencimiento = new DateTime($valueC['vencimiento']);
+              ;
+
+              $intervalo = $fecha_actual->diff($fecha_Vencimiento);
+
+
+              echo '<td>';
+
+              if ($valueC['estado'] == "NR") {
+                echo "<b class='custom-label'>Devuelto<td>
+
+                    </b>";
+              } elseif ($valueC['estado'] == "R") {
+                echo "<b class='label label-primary'>Renovado<td>
+
+                
+
+                    </b>";
+              } elseif ($fecha_Vencimiento >= $fecha_actual & $intervalo->days >= 6) {
+                echo "<b class='label label-success'>Vigente<td>
+
+                    <div class='btn-group'>
+
+                    <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
+
+                    <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
+
+                    </b>";
+              } elseif ($fecha_Vencimiento <= $fecha_actual) {
+                echo "<b class='label label-danger'>VENCIDO<td>
+
+                    <div class='btn-group'>
+
+                    <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
+                    <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
+                    </b>";
+
+
+              } elseif ($intervalo->days <= 6) {
+
+                 if ($_SESSION["perfil"] == "Administrador") {
+                echo "<b class='label label-warning'>Por vencer<td>
+
+                    <div class='btn-group'>
+                
+      
+                    <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
+
+                    <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
+                    
+                    <button class='btn btn-danger btnEliminarCosto' idCosto='" . $valueC["id"] . "'><i class='fa fa-trash'></i></button>
+
+                    </b>";
+
+                    
+                 }else{
+                  echo "<b class='label label-warning'>Por vencer<td>
+
+                    <div class='btn-group'>
+                
+      
+                    <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
+
+                    <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
+
+                    </b>";
+
+                 }
+
+              }
+              echo '</td>
+        
+                  
+
+                </tr>';
+            }
+
+                   /*
  
                    <td>
  
@@ -501,6 +584,8 @@ if ($_SESSION["perfil"] == "Especial") {
  
                  </tr>';
                 }
+
+                */
 
                 ?>
 
@@ -535,7 +620,7 @@ if ($_SESSION["perfil"] == "Especial") {
                   <th><i class="fa fa-money"></i> Monto</th>
                   <th><i class="fa fa-file-text-o"></i> Concepto</th>
                   <th><i class="fa fa-truck"></i> proveedor</th>
-                  <th><i class="fa fa-cc-visa"></i> Forma de pago</th>
+                  <th><i class="fa fa-cc-visa"></i> F. Pago</th>
                   <th><i class="fa fa-user"></i> Usuario</th>
                   <th><i class="fa fa-calendar-o"></i> Fecha</th>
                   <th><i class="fa fa-pencil-square-o"></i>Acciones</th>
