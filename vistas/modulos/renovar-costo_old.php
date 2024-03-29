@@ -10,7 +10,7 @@ if ($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Sub-Admini
 
       <h1>
 
-        Surtir inventario
+       Nuevo Costo
 
       </h1>
 
@@ -75,7 +75,7 @@ if ($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Sub-Admini
 
                       <?php
 
-                      $item = null;
+                      $item = null; 
                       $valor = null;
 
 
@@ -203,8 +203,8 @@ if ($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Sub-Admini
 
                                 <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
 
-                                <input type="number" step="0.01" class="form-control input-md" min="0"
-                                  id="nuevoDescuentoVenta" name="nuevoDescuentoVenta" required>
+                                <input type="number" step="0.01" class="form-control input-md" min="0" id="nuevoDescuentoVenta"
+                                  name="nuevoDescuentoVenta" required>
 
                                 <input type="hidden" name="nuevoPrecioDescuento" id="nuevoPrecioDescuento" required>
 
@@ -279,25 +279,22 @@ if ($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Sub-Admini
 
                   <div class="form-group row">
 
-                    <div class="col-xs-6" style="padding-right:0px">
+                    <div class="cajasTipoCosto"></div>
+
+                    <div class="col-xs-12" style="padding-right:0px padding-left:0px">
 
                       <div class="input-group">
 
-                        <select class="form-control" id="nuevoTipoCosto" name="nuevoTipoCosto" required>
-                          <option value="">Seleccione el tipo de costo</option>
-                          <option value="Costo">Pago Unico</option>
-                          <option value="Alquiler">Alquiler</option>
-                        </select>
+                        <span class="input-group-addon"><i class="fa fa-tags"></i></span>
+
+                        <input type="text" class="form-control input-md" id="nuevoNombreCosto" name="nuevoNombreCosto"
+                          placeholder="Ingresa un nombre a este costo">
 
                       </div>
 
                     </div>
 
-                    <div class="cajasTipoCosto"></div>
-
-                    <input type="hidden" id="listaTipoCosto" name="listaTipoCosto">
                     <input type="hidden" id="listaNombreCosto" name="listaNombreCosto">
-                    <input type="hidden" id="listaVencimientoc" name="listaVencimientoc">
 
                   </div>
 
@@ -341,8 +338,7 @@ if ($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Sub-Admini
 
             <div class="box-body">
 
-              <table class="table dt-responsive table-hover display  tablaSurtirInventario tabla-redondeada"
-                cellspacing="0" width="100%">
+              <table class="table dt-responsive table-hover display  tablaSurtirInventario tabla-redondeada" cellspacing="0" width="100%">
 
                 <thead>
 

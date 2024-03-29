@@ -67,7 +67,7 @@ $(".tablas").on("click", ".btnEditarCategoria", function(){
 
 					var precioVenta = item.precio_venta;
 					// Formatear el número con dos decimales y formato de moneda.
-					var precioVentaFormat = $.number(precioVenta, { style: 'currency', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+					var precioVentaFormat = precioVenta.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
 
 					cols += '<td>' + '$ ' + precioVentaFormat + '</td>';	
 

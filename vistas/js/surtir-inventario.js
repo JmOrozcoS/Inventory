@@ -476,6 +476,94 @@ $(".formularioSurtirInventario").on("change", "input.nuevaCantidadProducto", fun
 })
 
 
+/*=============================================
+MODIFICAR LA CANTIDAD
+=============================================*/
+
+$(".formularioSurtirInventario").on("change", "input.editarCantidadProducto", function () {
+
+	var precio = $(this).parent().parent().children(".ingresoPrecio").children().children(".nuevoPrecioProducto");
+
+	var precioFinal = $(this).val() * precio.attr("precioReal");
+
+	precio.val(precioFinal);
+
+	var nuevoStock = Number($(this).val());
+
+	$(this).attr("nuevoStock", nuevoStock);
+
+	/*if (Number($(this).val()) > Number($(this).attr("stock"))) {
+
+		/*=============================================
+		SI LA CANTIDAD ES SUPERIOR AL STOCK REGRESAR VALORES INICIALES
+		=============================================
+
+		$(this).val(1);
+
+		var precioFinal = $(this).val() * precio.attr("precioReal");
+
+		precio.val(precioFinal);
+
+		sumarTotalPrecios();
+
+		swal({
+			title: "La cantidad supera el Stock",
+			text: "¡Sólo hay " + $(this).attr("stock") + " unidades!",
+			type: "error",
+			confirmButtonText: "¡Cerrar!"
+		});
+
+		return;
+
+	}*/
+
+	// SUMAR TOTAL DE PRECIOS
+
+	sumarTotalPrecios()
+
+	// AGREGAR Descuento
+
+	agregarDescuento()
+
+	// AGRUPAR PRODUCTOS EN FORMATO JSON
+
+	listarProductosC()
+
+})
+
+
+/*=============================================
+LISTAR TODOS LOS PRODUCTOS
+=============================================*/
+
+function listarProductosC() {
+
+	var listaProductos = [];
+
+	var descripcion = $(".nuevaDescripcionProducto");
+
+	var cantidad = $(".editarCantidadProducto");
+
+	var precio = $(".nuevoPrecioProducto");
+
+	for (var i = 0; i < descripcion.length; i++) {
+
+		listaProductos.push({
+			"id": $(descripcion[i]).attr("idProducto"),
+			"descripcion": $(descripcion[i]).val(),
+			"cantidad": $(cantidad[i]).val(),
+			"stock": $(cantidad[i]).attr("nuevoStock"),
+			"precio": $(precio[i]).attr("precioReal"),
+			"total": $(precio[i]).val()
+		})
+
+	}
+
+	$("#listaProductos").val(JSON.stringify(listaProductos));
+
+}
+
+
 
 /*=============================================
 FUNCIÓN PARA DESACTIVAR LOS BOTONES AGREGAR CUANDO EL PRODUCTO YA HABÍA SIDO SELECCIONADO EN LA CARPETA
@@ -591,7 +679,7 @@ $(".tablas").on("click", ".btnEditarCosto", function () {
 /*=============================================
 BORRAR COSTO
 =============================================*/
-$(".tablas").on("click", ".btnEliminarCosto", function () {
+$(".tablaCostos").on("click", ".btnEliminarCosto", function () {
 
 	var idCosto = $(this).attr("idCosto");
 
@@ -611,6 +699,162 @@ $(".tablas").on("click", ".btnEliminarCosto", function () {
 		}
 
 	})
+
+})
+
+
+/*=============================================
+BOTON RENOVAR COSTO
+=============================================*/
+$(".tablas").on("click", ".btnRenovarCosto", function () {
+
+	var idCosto = $(this).attr("idCosto");
+
+	window.location = "index.php?ruta=renovar-costo&idCosto=" + idCosto;
+
+
+})
+
+
+/*=============================================
+BOTON GUARDAR RENOVAR COSTO
+=============================================*/
+
+$(document).ready(function () {
+	$("#btnRcosto").click(function () {
+
+		// Obtén el valor del parámetro idVenta de la URL
+		var parametros = new URLSearchParams(window.location.search);
+		var idCosto = parametros.get('idCosto');
+
+		var estadoCosto = $(this).attr("estadoCosto");
+
+		var datos = new FormData();
+		datos.append("activarIdCosto", idCosto);
+		datos.append("activarCosto", estadoCosto);
+
+
+		// Ahora puedes usar idVenta en esta página
+		//console.log('idVenta:', idVenta);
+		//console.log('estadoVenta', estadoVenta);
+
+
+		$.ajax({
+
+			url: "ajax/ventas.ajax.php",
+			method: "POST",
+			data: datos,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function (respuesta) {
+
+				//console.log(respuesta);
+				//window.location = "index.php?ruta=renovar-venta&idVenta="+idVenta;
+				//window.location = "rentas";
+
+
+				//if(window.matchMedia("(max-width:767px)").matches){
+
+				/*swal({
+					title: "El estado de la venta se ha renovado",
+					type: "success",
+					confirmButtonText: "¡Cerrar!"
+				}).then(function (result) {
+					if (result.value) {
+
+						//window.location = "rentas";
+
+
+					}
+
+
+				});*/
+
+				//}
+
+			}
+
+		})
+
+	})
+});
+
+
+/*=============================================
+BOTON DEVOLVER VENTA
+=============================================*/
+$(".tablaCostos").on("click", ".btnDevolverCosto", function () {
+
+	var idCosto = $(this).attr("idCosto");
+	var estadoCosto = $(this).attr("estadoCosto");
+
+	var datos = new FormData();
+	datos.append("activarIdCosto", idCosto);
+	datos.append("activarCosto", estadoCosto);
+
+
+	// Ahora puedes usar idVenta en esta página
+	//console.log('idVenta:', idVenta);
+	//console.log('estadoVenta', estadoVenta);
+
+
+	swal({
+		title: '¿Está seguro de devolver los productos?',
+		text: "¡Esta accíón no se puede revertir!",
+		type: 'warning',
+		showCancelButton: true,
+		confirmButtonColor: '#3085d6',
+		cancelButtonColor: '#d33',
+		cancelButtonText: 'Cancelar',
+		confirmButtonText: 'Si, devolver productos!'
+	}).then(function (result) {
+		if (result.value) {
+
+			$.ajax({
+
+				url: "ajax/ventas.ajax.php",
+				method: "POST",
+				data: datos,
+				cache: false,
+				contentType: false,
+				processData: false,
+				success: function (respuesta) {
+
+					//console.log(respuesta);
+					window.location = "index.php?ruta=ventas&idCosto=" + idCosto;
+					//window.location = "ventas";
+
+
+					/*//if(window.matchMedia("(max-width:767px)").matches){
+	  
+						swal({
+						title: "El estado de la venta se ha renovado",
+						type: "success",
+						confirmButtonText: "¡Cerrar!"
+					  }).then(function(result) {
+						  if (result.value) {
+	  
+							  window.location = "index.php?ruta=rentas&idVenta="+idVenta;
+							  
+	  
+						  }
+	  
+	  
+					  });
+	  
+					//}*/
+
+				}
+
+			})
+		}
+
+	})
+
+
+
+
 
 })
 

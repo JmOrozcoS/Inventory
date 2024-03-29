@@ -505,7 +505,7 @@ if ($_SESSION["perfil"] == "Especial") {
 
                     <div class='btn-group'>
 
-                    <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
+                    <button class='btn bg-light-blue-active btnDevolverCosto' title = 'Devolver Producto' estadoCosto='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
 
                     <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
 
@@ -515,7 +515,7 @@ if ($_SESSION["perfil"] == "Especial") {
 
                     <div class='btn-group'>
 
-                    <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
+                    <button class='btn bg-light-blue-active btnDevolverCosto' title = 'Devolver Producto' estadoCosto='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
                     <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
                     </b>";
 
@@ -528,7 +528,7 @@ if ($_SESSION["perfil"] == "Especial") {
                     <div class='btn-group'>
                 
       
-                    <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
+                    <button class='btn bg-light-blue-active btnDevolverCosto' title = 'Devolver Producto' estadoCosto='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
 
                     <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
                     
@@ -543,7 +543,7 @@ if ($_SESSION["perfil"] == "Especial") {
                     <div class='btn-group'>
                 
       
-                    <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
+                    <button class='btn bg-light-blue-active btnDevolverCosto' title = 'Devolver Producto' estadoCosto='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
 
                     <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
 
@@ -595,8 +595,11 @@ if ($_SESSION["perfil"] == "Especial") {
 
             <?php
 
-            $eliminarCosto = new ControladorCostos();
-            $eliminarCosto->ctrEliminarCosto();
+            $DevolverCosto = new ControladorCostos();
+            $DevolverCosto->ctrDevolverCosto();
+
+            // $eliminarCosto = new ControladorCostos();
+            // $eliminarCosto->ctrEliminarCosto();
 
             ?>
 

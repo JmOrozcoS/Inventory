@@ -98,7 +98,7 @@ class ModeloCostos{
 
 
 	/*=============================================
-	MOSTRAR COSTOSS
+	MOSTRAR COSTOS
 	=============================================*/
 
 	static public function mdlMostrarCostos($tabla, $item, $valor){
@@ -137,7 +137,7 @@ class ModeloCostos{
 
 	static public function mdlIngresarCosto($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(codigo, id_proveedor, productos, descuento, neto, total, metodo_pago, nombre_costo, id_usuario, fecha_crea) VALUES (:codigo, :id_proveedor, :productos, :descuento, :neto, :total, :metodo_pago, :nombre_costo, :id_usuario, :fecha_crea)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(codigo, id_proveedor, productos, descuento, neto, total, metodo_pago, nombre_costo, id_usuario, vencimiento, fecha_crea) VALUES (:codigo, :id_proveedor, :productos, :descuento, :neto, :total, :metodo_pago, :nombre_costo, :id_usuario, :vencimiento, :fecha_crea)");
 
 		$stmt->bindParam(":codigo", $datos["codigo"], PDO::PARAM_INT);
 		$stmt->bindParam(":id_proveedor", $datos["id_proveedor"], PDO::PARAM_INT);
@@ -146,8 +146,9 @@ class ModeloCostos{
 		$stmt->bindParam(":neto", $datos["neto"], PDO::PARAM_STR);
 		$stmt->bindParam(":total", $datos["total"], PDO::PARAM_STR);
 		$stmt->bindParam(":metodo_pago", $datos["metodo_pago"], PDO::PARAM_STR);
-		$stmt->bindParam(":nombre_costo", $datos["nombre_venta"], PDO::PARAM_STR);
+		$stmt->bindParam(":nombre_costo", $datos["nombre_costo"], PDO::PARAM_STR);
 		$stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+		$stmt->bindParam(":vencimiento", $datos["vencimiento"], PDO::PARAM_STR);
 		$stmt->bindParam(":fecha_crea", $datos["fecha_crea"], PDO::PARAM_STR);
 
 		if($stmt->execute()){
@@ -278,5 +279,35 @@ class ModeloCostos{
 		}
 
 	}
+
+
+	/*=============================================
+				EDITAR ESTADO COSTO
+				=============================================*/
+
+				static public function mdlEditarEstadoCosto($tabla, $item1, $valor1, $item2, $valor2)
+				{
+			
+					$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item1 = :$item1 WHERE $item2 = :$item2");
+			
+					$stmt->bindParam(":" . $item1, $valor1, PDO::PARAM_STR);
+					$stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+			
+					if ($stmt->execute()) {
+			
+						return "ok";
+			
+					} else {
+			
+						return "error";
+			
+					}
+			
+					$stmt->close();
+			
+					$stmt = null;
+			
+				}
+			
 
 }

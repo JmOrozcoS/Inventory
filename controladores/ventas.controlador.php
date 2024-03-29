@@ -372,6 +372,7 @@ class ControladorVentas
 					$nuevoStock_2 = ModeloProductos::mdlActualizarProducto($tablaProductos_2, $item1b_2, $valor1b_2, $valor_2);
 
 				}
+				
 
 				$tablaClientes_2 = "clientes";
 

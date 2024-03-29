@@ -760,6 +760,83 @@ $("#nuevoTipoVenta").change(function () {
 
 })
 
+
+/*=============================================
+SELECCIONAR TIPO COSTO
+=============================================*/
+
+$("#nuevoTipoCosto").change(function () {
+
+	var tipo = $(this).val();
+
+	if (tipo == "Costo") {
+
+		$(this).parent().parent().removeClass('col-xs-4');
+
+		$(this).parent().parent().addClass('col-xs-6');
+
+		$(this).parent().parent().parent().children('.cajasTipoCosto').html(
+
+			'<div class="col-xs-6" style="padding-left:0px">' +
+
+			'<div class="input-group">' +
+
+			'<span class="input-group-addon"><i class="fa fa-tags"></i></span>' +
+
+			'<input type="text" class="form-control input-md" id="nuevoNombreCosto" name="nuevoNombreCosto" placeholder="Ingresa un nombre a esta costo">' +
+
+			'</div>' +
+
+			'</div>')
+
+		listarTipoCosto()
+
+
+	} else {
+
+		$(this).parent().parent().removeClass('col-xs-6');
+
+		$(this).parent().parent().addClass('col-xs-4');
+
+		$(this).parent().parent().parent().children('.cajasTipoCosto').html(
+
+			'<div class="col-xs-4"">' +
+
+			'<div class="input-group">' +
+
+			'<span class="input-group-addon"><i class="fa fa-tags"></i></span>' +
+
+			'<input type="text" class="form-control input-md" id="nuevoNombreCosto" name="nuevoNombreCosto" placeholder="Nombre a esta costo">' +
+
+			'</div>' +
+
+			'</div>' +
+
+			'<div class="col-xs-4" style="padding-left:0px">' +
+
+			'<div class="input-group">' +
+
+			'<span class="input-group-addon"><i class="fa fa-calendar"></i></span>' +
+
+			'<input type="date" class="form-control input-md" id="nuevaFechaVencimientoc" name="nuevaFechaVencimientoc" required>' +
+
+			'</div>' +
+
+			'</div>'
+
+		)
+		PfechaC()
+		listarTipoCosto()
+		
+
+	}
+
+
+
+})
+
+
+
 //Predeterminar fecha de vencimiento
 function Pfecha() {
 	// Obtén la fecha actual
@@ -775,6 +852,20 @@ function Pfecha() {
 	$('#nuevaFechaVencimiento').val(fechaFormateada);
 }
 
+//Predeterminar fecha de vencimiento
+function PfechaC() {
+	// Obtén la fecha actual
+	const fechaActual = new Date();
+
+	// Agrega 30 días
+	fechaActual.setDate(fechaActual.getDate() + 30);
+
+	// Formatea la fecha en el formato YYYY-MM-DD (que es el formato de entrada "date" en HTML)
+	const fechaFormateada = fechaActual.toISOString().split('T')[0];
+
+	// Establece la fecha en el campo de entrada utilizando jQuery
+	$('#nuevaFechaVencimientoc').val(fechaFormateada);
+}
 
 
 
@@ -819,6 +910,25 @@ $(".formularioVenta").on("change", "input#nuevaFechaVencimiento", function () {
 
 	// Listar método en la entrada
 	listarTipoVenta()
+
+
+})
+
+/*=============================================
+CAMBIO TIPO COSTO
+=============================================*/
+$(".formularioSurtirInventario").on("change", "input#nuevoNombreVentac", function () {
+
+	// Listar método en la entrada
+	listarTipoVenta()
+
+
+})
+
+$(".formularioSurtirInventario").on("change", "input#nuevaFechaVencimientoc", function () {
+
+	// Listar método en la entrada
+	listarTipoCosto()
 
 
 })
@@ -895,6 +1005,29 @@ function listarTipoVenta() {
 		$("#listaTipoVenta").val("Alquiler");
 		$("#listaNombreVenta").val($("#nuevoNombreVenta").val());
 		$("#listaVencimiento").val($("#nuevaFechaVencimiento").val());
+
+	}
+
+}
+
+/*=============================================
+LISTAR TIPO DE COSTO
+=============================================*/
+
+function listarTipoCosto() {
+
+	var listaTipos = "";
+
+	if ($("#nuevoTipoCosto").val() == "Costo") {
+
+		$("#listaTipoCosto").val("Costo");
+		$("#listaNombreCosto").val($("#nuevoNombreCosto").val());
+
+	} else {
+
+		$("#listaTipoCosto").val("Alquiler");
+		$("#listaNombreCosto").val($("#nuevoNombreCosto").val());
+		$("#listaVencimientoc").val($("#nuevaFechaVencimientoc").val());
 
 	}
 
@@ -1303,18 +1436,6 @@ $(".daterangepicker.opensleft .ranges li").on("click", function () {
 
 })
 
-
-/*=============================================
-BOTON RENOVAR COSTO
-=============================================*/
-$(".tablas").on("click", ".btnRenovarCosto", function () {
-
-	var idCosto = $(this).attr("idCosto");
-
-	window.location = "index.php?ruta=renovar-costo&idCosto=" + idCosto;
-
-
-})
 
 
 

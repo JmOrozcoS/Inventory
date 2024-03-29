@@ -5,8 +5,8 @@ class ControladorCostos
 
 
 	/*=============================================
-				   Obtener los Costos totales
-				   =============================================*/
+					  Obtener los Costos totales
+					  =============================================*/
 	static public function ctrSumaTCostos($fechaInicial, $fechaFinal)
 	{
 
@@ -21,8 +21,8 @@ class ControladorCostos
 
 
 	/*=============================================
-				   MOSTRAR ULTIMO CODIGO DE COSTOS
-				   =============================================*/
+					  MOSTRAR ULTIMO CODIGO DE COSTOS
+					  =============================================*/
 
 	static public function ctrMostrarMaxCodigoCostos($item, $valor)
 	{
@@ -36,8 +36,8 @@ class ControladorCostos
 	}
 
 	/*=============================================
-				   MOSTRAR COSTOS
-				   =============================================*/
+					  MOSTRAR COSTOS
+					  =============================================*/
 
 	static public function ctrMostrarCostos($item, $valor)
 	{
@@ -50,9 +50,92 @@ class ControladorCostos
 
 	}
 
+
+
+
+
+/*=============================================
+	   DEVOLVER Costo
+	   =============================================*/
+
+	   static public function ctrDevolverCosto()
+	   {
+   
+		   if (isset($_GET["idCosto"])) {
+   
+			   $tabla = "costos";
+   
+			   $item = "id";
+			   $valor = $_GET["idCosto"];
+   
+			   $traerCosto = ModeloCostos::mdlMostrarCostos($tabla, $item, $valor);
+   
+			   if (is_array($traerCosto)) {
+   
+				   /*=============================================
+							  FORMATEAR TABLA DE PRODUCTOS Y LA DE CLIENTES
+							  =============================================*/
+   
+				   $productos = json_decode($traerCosto["productos"], true);
+   
+				   $totalProductosComprados = array();
+   
+				   foreach ($productos as $key => $value) {
+   
+					   array_push($totalProductosComprados, $value["cantidad"]);
+   
+					   $tablaProductos = "productos";
+   
+					   $item = "id";
+					   $valor = $value["id"];
+   
+					   $traerProducto = ModeloProductos::mdlMostrarProductos($tablaProductos, $item, $valor);
+   
+					   /*$item1a = "ventas";
+								   $valor1a = $traerProducto["ventas"] - $value["cantidad"];
+   
+								   $nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);*/
+   
+					   $item1b = "stock";
+					   $valor1b =  $traerProducto["stock"] - $value["cantidad"];
+   
+					   $nuevoStock = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1b, $valor1b, $valor);
+   
+					   if ($nuevoStock == "ok") {
+   
+						   echo '<script>
+	   
+					   swal({
+							 type: "success",
+							 title: "Los productos han sido devueltos correctamente",
+							 showConfirmButton: true,
+							 confirmButtonText: "Cerrar",
+							 closeOnConfirm: false
+							 }).then((result) => {
+									   if (result.value) {
+	   
+									   window.location = "ventas";
+	   
+									   }
+								   })
+	   
+					   </script>';
+   
+					   }
+   
+				   }
+			   }
+		   }
+   
+	   }
+
+
+
+
+
 	/*=============================================
-				   CREAR COSTO SURTIR INVENTARIO
-				   =============================================*/
+					  CREAR COSTO SURTIR INVENTARIO
+					  =============================================*/
 
 	static public function ctrCrearCostoInventario()
 	{
@@ -60,8 +143,8 @@ class ControladorCostos
 		if (isset($_POST["nuevoCostoInventario"])) {
 
 			/*=============================================
-						ACTUALIZAR LAS COMPRAS DEL CLIENTE Y REDUCIR EL STOCK Y AUMENTAR LAS VENTAS DE LOS PRODUCTOS
-						 =============================================*/
+								 ACTUALIZAR LAS COMPRAS DEL CLIENTE Y REDUCIR EL STOCK Y AUMENTAR LAS VENTAS DE LOS PRODUCTOS
+								  =============================================*/
 
 			$listaProductos = json_decode($_POST["listaProductos"], true);
 
@@ -79,8 +162,8 @@ class ControladorCostos
 				$traerProducto = ModeloProductos::mdlMostrarProductos($tablaProductos, $item, $valor);
 
 				/*$item1a = "ventas";
-					$valor1a = $value["cantidad"] + $traerProducto["ventas"];
-					$nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);*/
+								$valor1a = $value["cantidad"] + $traerProducto["ventas"];
+								$nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);*/
 
 				$item1b = "stock";
 				$valor1b = $value["stock"];
@@ -113,8 +196,8 @@ class ControladorCostos
 			$fechaProveedor = ModeloProveedores::mdlActualizarProveedor($tablaProveedores, $item2b, $valor1b, $valor);
 
 			/*=============================================
-						GUARDAR LA COMPRA
-						=============================================*/
+								 GUARDAR LA COMPRA
+								 =============================================*/
 
 			$tabla = "costos";
 
@@ -128,8 +211,10 @@ class ControladorCostos
 				"total" => $_POST["totalVenta"],
 				"metodo_pago" => $_POST["listaMetodoPago"],
 				//"tipo_venta"=>$_POST["listaTipoVenta"],
-				"nombre_venta" => $_POST["listaNombreCosto"],
+				"nombre_costo" => $_POST["listaNombreCosto"],
+				"vencimiento" => $_POST["listaVencimientoc"],
 				"fecha_crea" => $valor1b
+
 			);
 
 			$respuesta = ModeloCostos::mdlIngresarCosto($tabla, $datos);
@@ -162,9 +247,25 @@ class ControladorCostos
 	}
 
 
+
+
+
+
+
+
+	
+
+	
+
+		
+
+			
+
+
+
 	/*=============================================
-				   ELIMINAR COSTO
-				   =============================================*/
+					  ELIMINAR COSTO
+					  =============================================*/
 
 	static public function ctrEliminarCosto()
 	{
@@ -179,8 +280,8 @@ class ControladorCostos
 			$traerVenta = ModeloCostos::mdlMostrarCostos($tabla, $item, $valor);
 
 			/*=============================================
-														 ACTUALIZAR FECHA ÚLTIMA COMPRA
-														 =============================================*/
+																  ACTUALIZAR FECHA ÚLTIMA COMPRA
+																  =============================================*/
 
 			$tablaProveedores = "proveedores";
 
@@ -233,8 +334,8 @@ class ControladorCostos
 			}
 
 			/*=============================================
-														 FORMATEAR TABLA DE PRODUCTOS Y LA DE CLIENTES
-														 =============================================*/
+																  FORMATEAR TABLA DE PRODUCTOS Y LA DE CLIENTES
+																  =============================================*/
 
 			$productos = json_decode($traerVenta["productos"], true);
 
@@ -252,9 +353,9 @@ class ControladorCostos
 				$traerProducto = ModeloProductos::mdlMostrarProductos($tablaProductos, $item, $valor);
 
 				/*$item1a = "ventas";
-																			$valor1a = $traerProducto["ventas"] - $value["cantidad"];
+																						$valor1a = $traerProducto["ventas"] - $value["cantidad"];
 
-																			$nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);*/
+																						$nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);*/
 
 				$item1b = "stock";
 				$valor1b = $traerProducto["stock"] - $value["cantidad"];
@@ -276,8 +377,8 @@ class ControladorCostos
 			$ventasProveedor = ModeloProveedores::mdlActualizarProveedor($tablaProveedores, $item1a, $valor1a, $valorProveedor);
 
 			/*=============================================
-														 ELIMINAR VENTA
-														 =============================================*/
+																  ELIMINAR VENTA
+																  =============================================*/
 
 			$respuesta = ModeloCostos::mdlEliminarCosto($tabla, $_GET["idCosto"]);
 
@@ -324,8 +425,8 @@ class ControladorCostos
 
 
 	/*=============================================
-		  RENOVAR COSTO
-		  =============================================*/
+			 RENOVAR COSTO
+			 =============================================*/
 
 	static public function ctrRenovarCosto()
 	{
@@ -333,22 +434,22 @@ class ControladorCostos
 		if (isset($_POST["nuevoCostoInventario"])) {
 
 			/*=============================================
-							  FORMATEAR TABLA DE PRODUCTOS Y LA DE CLIENTES
-							  =============================================*/
+									   FORMATEAR TABLA DE PRODUCTOS Y LA DE CLIENTES
+									   =============================================*/
 			$tabla = "costos";
 
 			//Capturar id por url
 			$idCosto = isset($_GET['idCosto']) ? $_GET['idCosto'] : null;
 
 
-			$item = "codigo";
+			$item = "id";
 			$valor = $idCosto;
 
 			$traerCosto = ModeloCostos::mdlMostrarCostos($tabla, $item, $valor);
 
 			/*=============================================
-							  REVISAR SI VIENE PRODUCTOS EDITADOS
-							  =============================================*/
+									   REVISAR SI VIENE PRODUCTOS EDITADOS
+									   =============================================*/
 
 			if ($_POST["listaProductos"] == "") {
 
@@ -366,7 +467,7 @@ class ControladorCostos
 
 			if ($cambioProducto) {
 
-				$productos = json_decode($traerCosto["productos"], true);
+				/*$productos = json_decode($traerCosto["productos"], true);
 
 				$totalProductosComprados = array();
 
@@ -383,9 +484,9 @@ class ControladorCostos
 
 					// Ya se actualiza mas abajo
 					/*$item1a = "ventas";
-												  $valor1a = $traerProducto["ventas"] - $value["cantidad"];
-			   
-												  $nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);*/
+																 $valor1a = $traerProducto["ventas"] - $value["cantidad"];
+							  
+																 $nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);
 
 
 					//Actualizar Stock, cantidad de ventas + el stock
@@ -394,24 +495,24 @@ class ControladorCostos
 
 					$nuevoStock = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1b, $valor1b, $valor);
 
-				}
+				}*/
 
 				//No es necesario reducir compras del cliente
 				/*$tablaClientes = "clientes";
-			
-										$itemCliente = "id";
-										$valorCliente = $_POST["seleccionarCliente"];
-			
-										$traerCliente = ModeloClientes::mdlMostrarClientes($tablaClientes, $itemCliente, $valorCliente);
-			
-										$item1a = "compras";
-										$valor1a = $traerCliente["compras"] - array_sum($totalProductosComprados);
-			
-										$comprasCliente = ModeloClientes::mdlActualizarCliente($tablaClientes, $item1a, $valor1a, $valorCliente);*/
+						
+													$itemCliente = "id";
+													$valorCliente = $_POST["seleccionarCliente"];
+						
+													$traerCliente = ModeloClientes::mdlMostrarClientes($tablaClientes, $itemCliente, $valorCliente);
+						
+													$item1a = "compras";
+													$valor1a = $traerCliente["compras"] - array_sum($totalProductosComprados);
+						
+													$comprasCliente = ModeloClientes::mdlActualizarCliente($tablaClientes, $item1a, $valor1a, $valorCliente);*/
 
 				/*=============================================
-							ACTUALIZAR LAS COMPRAS DEL CLIENTE Y REDUCIR EL STOCK Y AUMENTAR LAS VENTAS DE LOS PRODUCTOS
-							=============================================*/
+										ACTUALIZAR LAS COMPRAS DEL CLIENTE Y REDUCIR EL STOCK Y AUMENTAR LAS VENTAS DE LOS PRODUCTOS
+										=============================================*/
 
 				$listaProductos_2 = json_decode($listaProductos, true);
 
@@ -428,13 +529,13 @@ class ControladorCostos
 
 					$traerProducto_2 = ModeloProductos::mdlMostrarProductos($tablaProductos_2, $item_2, $valor_2);
 
-					$item1a_2 = "ventas";
-					$valor1a_2 = $value["cantidad"] + $traerProducto_2["ventas"];
+					$item1a_2 = "compras";
+					$valor1a_2 = $value["cantidad"] + $traerProducto_2["compras"];
 
 					$nuevasVentas_2 = ModeloProductos::mdlActualizarProducto($tablaProductos_2, $item1a_2, $valor1a_2, $valor_2);
 
 					$item1b_2 = "stock";
-					$valor1b_2 = $traerProducto_2["stock"] - $value["cantidad"];
+					$valor1b_2 = $value["stock"];
 
 					$nuevoStock_2 = ModeloProductos::mdlActualizarProducto($tablaProductos_2, $item1b_2, $valor1b_2, $valor_2);
 
@@ -443,7 +544,7 @@ class ControladorCostos
 				$tablaProveedor_2 = "proveedores";
 
 				$item_2 = "id";
-				$valor_2 = $_POST["seleccionarProvedor"];
+				$valor_2 = $_POST["seleccionarProveedor"];
 
 				$traerProveedor_2 = ModeloProveedores::mdlMostrarProveedores($tablaProveedor_2, $item_2, $valor_2);
 
@@ -461,6 +562,7 @@ class ControladorCostos
 				$valor1b_2 = $fecha . ' ' . $hora;
 
 				$fechaProveedor_2 = ModeloProveedores::mdlActualizarProveedor($tablaProveedor_2, $item1b_2, $valor1b_2, $valor_2);
+				
 
 			} else {
 
@@ -480,16 +582,16 @@ class ControladorCostos
 
 					$traerProducto = ModeloProductos::mdlMostrarProductos($tablaProductos, $item, $valor);
 
-					$item1a = "ventas";
-					$valor1a = $value["cantidad"] + $traerProducto["ventas"];
+					$item1a = "compras";
+					$valor1a = $value["cantidad"] + $traerProducto["compras"];
 
 					$nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);
 
 					// si no viene productos editados desactivar actualizar stock por eso se deja comentado
 					/*$item1b = "stock";
-								$valor1b = $value["stock"];
-				
-								$nuevoStock = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1b, $valor1b, $valor);*/
+											   $valor1b = $value["stock"];
+							   
+											   $nuevoStock = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1b, $valor1b, $valor);*/
 
 				}
 
@@ -524,8 +626,8 @@ class ControladorCostos
 			$valor1b_2_3 = $fecha . ' ' . $hora;
 
 			/*=============================================
-							  GUARDAR CAMBIOS DE LA COMPRA
-							  =============================================*/
+									   GUARDAR CAMBIOS DE LA COMPRA
+									   =============================================*/
 			if ($_POST["listaNombreCosto"] == "") {
 				$nCosto = $_POST["nuevoNombreCosto"];
 			} else {
@@ -538,6 +640,8 @@ class ControladorCostos
 				$nMetodoPago = $_POST["listaMetodoPago"];
 			}
 
+			$tabla = "costos";
+
 			$datos = array(
 				"id_usuario" => $_POST["idUsuario"],
 				"id_proveedor" => $_POST["seleccionarProveedor"],
@@ -549,8 +653,11 @@ class ControladorCostos
 				"metodo_pago" => $nMetodoPago,
 				//"tipo_venta" => $_POST["listaTipoVenta"],
 				"nombre_costo" => $nCosto,
-				//"vencimiento" => $_POST["listaVencimiento"],
+				"vencimiento" => $_POST["listaVencimientoc"],
 				"fecha_crea" => $valor1b_2_3
+
+
+
 			);
 
 
@@ -564,7 +671,7 @@ class ControladorCostos
    
 				   swal({
 						 type: "success",
-						 title: "El costo ha sido actualizado correctamente",
+						 title: "El costo ha sido renovado correctamente",
 						 showConfirmButton: true,
 						 confirmButtonText: "Cerrar"
 						 }).then((result) => {

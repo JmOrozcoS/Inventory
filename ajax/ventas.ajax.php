@@ -2,6 +2,8 @@
 
 require_once "../controladores/ventas.controlador.php";
 require_once "../modelos/ventas.modelo.php";
+require_once "../controladores/costos.controlador.php";
+require_once "../modelos/costos.modelo.php";
 
 class AjaxVentas{
 
@@ -46,7 +48,7 @@ class AjaxVentas{
       $item2 = "id";
       $valor2 = $this->activarIdCosto;
 
-      $respuesta = ModeloCostos::mdlEditarEstadoCostos($tabla, $item1, $valor1, $item2, $valor2);
+      $respuesta = ModeloCostos::mdlEditarEstadoCosto($tabla, $item1, $valor1, $item2, $valor2);
 
 	}
 
