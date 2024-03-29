@@ -346,9 +346,9 @@ if ($_SESSION["perfil"] == "Especial") {
                   if ($_SESSION["perfil"] == "Administrador") {
 
                     //La edicion de la venta se encuentra en revision, ya que debe anularse con nota credito segun DIAN
-                    echo '<button class="btn btn-warning btnEditarVenta" idVenta="' . $valueV["id"] . '" data-toggle="modal" data-target="#modalEditarVenta"><i class="fa fa-edit"></i></button>';
+                    //echo '<button class="btn btn-warning btnEditarVenta" idVenta="' . $valueV["id"] . '" data-toggle="modal" data-target="#modalEditarVenta"><i class="fa fa-edit"></i></button>';
                 
-                    echo '<button class="btn btn-danger btnEliminarVenta" idVenta="' . $valueV["id"] . '"><i class="fa fa-trash"></i></button>';
+                    //echo '<button class="btn btn-danger btnEliminarVenta" idVenta="' . $valueV["id"] . '"><i class="fa fa-trash"></i></button>';
 
                   }
 
@@ -532,7 +532,7 @@ if ($_SESSION["perfil"] == "Especial") {
 
                     <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
                     
-                    <button class='btn btn-danger btnEliminarCosto' idCosto='" . $valueC["id"] . "'><i class='fa fa-trash'></i></button>
+                    <!--<button class='btn btn-danger btnEliminarCosto' idCosto='" . $valueC["id"] . "'><i class='fa fa-trash'></i></button>-->
 
                     </b>";
 

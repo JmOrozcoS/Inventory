@@ -161,9 +161,9 @@ class ControladorCostos
 
 				$traerProducto = ModeloProductos::mdlMostrarProductos($tablaProductos, $item, $valor);
 
-				/*$item1a = "ventas";
-								$valor1a = $value["cantidad"] + $traerProducto["ventas"];
-								$nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);*/
+				$item1a = "compras";
+								$valor1a = $value["cantidad"] + $traerProducto["compras"];
+								$nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);
 
 				$item1b = "stock";
 				$valor1b = $value["stock"];
