@@ -111,7 +111,11 @@
               echo '<td>' . $respuestaCliente["nombre"] . '</td>';
 
 
-              //Obtener la celda de productos
+              if ($value["productos"] == "") {
+                echo '<td> - </td>';
+                $descripcionProductos = '';
+              } else {
+                //Obtener la celda de productos
               $json = $value["productos"];
 
               // Decodificar el JSON de productos
@@ -122,15 +126,19 @@
 
               foreach ($productos as $producto) {
                 $descripcionProductos .= $producto['descripcion'] . '<br> ';
+
               }
 
               // Eliminar la coma y el espacio al final de la cadena
               $descripcionProductos = rtrim($descripcionProductos, ', ');
 
               // Mostrar las descripciones de productos en la celda
-              echo '<td>' . $descripcionProductos . '</td>
+              echo '<td>' . $descripcionProductos . '</td>';
+              }
 
-                  <td>$ ' . number_format($value["total"], 2) . '</td>
+              
+
+                  echo '<td>$ ' . number_format($value["total"], 2) . '</td>
 
                   <td><b class="text-#526c77"><i>' . $value["nombre_venta"] . '</i></b></td>
 
@@ -159,13 +167,23 @@
 
                     <button class='btn btn-success btnContactar' title = 'Contactar cliente' producto='" . $descripcionProductos . "' fVencimiento='" . $value["vencimiento"] . "' nCliente='" . $respuestaCliente["nombre"] . "' cCliente='" . $respuestaCliente["telefono"] . "'><i class='fa fa-whatsapp'></i></button></b>";
               } elseif ($fecha_Vencimiento >= $fecha_actual & $intervalo->days >= 6) {
-                echo "<b class='label label-success'>Vigente<td>
+
+
+                if ($descripcionProductos == '') {
+                  echo "<b> - <td>
+
+                  </b>";
+                } else {
+                  echo "<b class='label label-success'>Vigente<td>
 
                     <div class='btn-group'>
 
                     <button class='btn btn-twitter btnRenovarVenta' title = 'Renovar' estadoVenta='R' idVenta='" . $value["id"] . "'><i class='fa fa-refresh'></i></button>
 
                     <button class='btn btn-success btnContactar' title = 'Contactar cliente' producto='" . $descripcionProductos . "' fVencimiento='" . $value["vencimiento"] . "' nCliente='" . $respuestaCliente["nombre"] . "' cCliente='" . $respuestaCliente["telefono"] . "'><i class='fa fa-whatsapp'></i></button></b>";
+                }
+
+                
               } elseif ($fecha_Vencimiento <= $fecha_actual) {
                 echo "<b class='label label-danger'>VENCIDO<td>
 

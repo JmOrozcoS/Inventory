@@ -77,7 +77,7 @@ if ($_SESSION["perfil"] == "Especial") {
         <button class="btn pull-center styleGasto" data-toggle="modal" data-target="#modalAgregarGasto"><i
             class="fa fa-arrow-circle-down"></i>
 
-          Nuevo Gasto
+          Ingreso/Gasto
 
         </button>
 
@@ -189,7 +189,7 @@ if ($_SESSION["perfil"] == "Especial") {
 
 
                 </h5>
-                <span class="description-text">Total Gastos</span>
+                <span class="description-text">Costos/Gastos</span>
               </div>
               <!-- /.description-block -->
             </div>
@@ -490,22 +490,31 @@ if ($_SESSION["perfil"] == "Especial") {
 
               echo '<td>';
 
-              if ($valueC['estado'] == "NR") {
+
+              if ($valueC['estado'] == "" && $valueC['vencimiento'] == "0000-00-00 00:00:00") {
+                echo "<b class='custom-label'>N/A<td>
+
+                  <div align='center' valign='middle'><i class='fa fa-exclamation-circle'></i></div>
+
+                  </b>";
+
+                } elseif ($valueC['estado'] == "NR") {
                 echo "<b class='custom-label'>Devuelto<td>
+
+                <div align='center' valign='middle'><i class='fa fa-exclamation-circle'></i></div>
 
                     </b>";
               } elseif ($valueC['estado'] == "R") {
                 echo "<b class='label label-primary'>Renovado<td>
 
-                
+                <div align='center' valign='middle'><i class='fa fa-exclamation-circle'></i></div>
+
 
                     </b>";
               } elseif ($fecha_Vencimiento >= $fecha_actual & $intervalo->days >= 6) {
                 echo "<b class='label label-success'>Vigente<td>
 
                     <div class='btn-group'>
-
-                    <button class='btn bg-light-blue-active btnDevolverCosto' title = 'Devolver Producto' estadoCosto='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
 
                     <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
 

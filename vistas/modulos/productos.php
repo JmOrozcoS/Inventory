@@ -64,7 +64,7 @@ if ($_SESSION["perfil"] == "Especial") {
             '<button class="btn btn-instagram crear-combo-button"><i
             class="fa fa-cubes"></i>
 
-            Creat combo/kit
+            Combo/kit
 
         </button>';
         }
@@ -80,7 +80,7 @@ if ($_SESSION["perfil"] == "Especial") {
             '<button class="btn btn-default edit-category-button"><i
             class="fa fa-th"></i>
 
-            Editar Categorias
+            Categorias
 
           </button>';
         }
