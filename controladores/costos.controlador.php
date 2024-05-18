@@ -467,7 +467,7 @@ class ControladorCostos
 
 			if ($cambioProducto) {
 
-				/*$productos = json_decode($traerCosto["productos"], true);
+				$productos = json_decode($traerCosto["productos"], true);
 
 				$totalProductosComprados = array();
 
@@ -486,16 +486,18 @@ class ControladorCostos
 					/*$item1a = "ventas";
 																 $valor1a = $traerProducto["ventas"] - $value["cantidad"];
 							  
-																 $nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);
+																 $nuevasVentas = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1a, $valor1a, $valor);*/
 
 
 					//Actualizar Stock, cantidad de ventas + el stock
+					//Actualizar restar productos eliminados
 					$item1b = "stock";
-					$valor1b = $value["cantidad"] + $traerProducto["stock"];
+					$valor1b =  $traerProducto["stock"] - $value["cantidad"];
+					//$valor1b = $value["cantidad"] + $traerProducto["stock"];
 
 					$nuevoStock = ModeloProductos::mdlActualizarProducto($tablaProductos, $item1b, $valor1b, $valor);
 
-				}*/
+				}
 
 				//No es necesario reducir compras del cliente
 				/*$tablaClientes = "clientes";
