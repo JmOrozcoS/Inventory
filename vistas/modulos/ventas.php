@@ -879,7 +879,22 @@ MODAL AGREGAR GASTO
             <!--</div>-->
 
 
+            <!-- ENTRADA PARA SELECCIONAR REGISTRO -->
 
+            <div class="form-group">
+
+              <div class="input-group">
+
+                <span class="input-group-addon"><i class="fa fa-th"></i></span>
+
+                <select class="form-control input-md" id="nuevoTipoGasto" name="nuevoTipoGasto" required>
+                  <option value="Gasto">Gasto</option>
+                  <option value="Ingreso">Ingreso</option>
+                </select>
+
+              </div>
+
+            </div>
 
             <!-- ENTRADA PARA SELECCIONAR CATEGORÍA -->
 
@@ -897,6 +912,7 @@ MODAL AGREGAR GASTO
                   <option value="Arriendo">Arriendo</option>
                   <option value="Nómina">Nómina</option>
                   <option value="Publicidad">Publicidad</option>
+                  <option value="Impuestos">Impuestos</option>
                   <option value="Otro">Otro</option>
 
                 </select>
@@ -1076,6 +1092,25 @@ MODAL EDITAR GASTO
           <div class="box-body">
 
 
+          <!-- ENTRADA PARA SELECCIONAR REGISTRO -->
+
+            <div class="form-group">
+
+              <div class="input-group">
+
+                <span class="input-group-addon"><i class="fa fa-th"></i></span>
+
+                <select class="form-control input-md" name="editarTipoGasto" required>
+                  <option value="" id="editarTipoGasto"></option>
+                  <option value="Gasto">Gasto</option>
+                  <option value="Ingreso">Ingreso</option>
+                </select>
+
+              </div>
+
+            </div>
+
+
             <!-- ENTRADA PARA SELECCIONAR CATEGORÍA -->
 
             <div class="form-group">
@@ -1111,7 +1146,7 @@ MODAL EDITAR GASTO
                   <span class="input-group-addon"><i class="fa fa-arrow-up"></i></span>
 
                   <input type="number" class="form-control input-md" id="editarMonto" name="editarMonto" step="any"
-                    min="0" required>
+                     required>
 
                 </div>
 

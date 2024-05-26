@@ -142,7 +142,7 @@ class ModeloGastos{
 
 	static public function mdlIngresarGasto($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(codigo, id_proveedor, id_usuario, forma_pago, monto, categoria, nombre_gasto, fecha_crea) VALUES (:codigo, :id_proveedor, :id_usuario, :forma_pago, :monto, :categoria, :nombre_gasto, :fecha_crea)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(codigo, id_proveedor, id_usuario, forma_pago, monto, categoria, nombre_gasto, fecha_crea, tipo_registro) VALUES (:codigo, :id_proveedor, :id_usuario, :forma_pago, :monto, :categoria, :nombre_gasto, :fecha_crea, :tipo_registro)");
 
 		$stmt->bindParam(":codigo", $datos["codigo"], PDO::PARAM_INT);
 		$stmt->bindParam(":id_proveedor", $datos["id_proveedor"], PDO::PARAM_INT);
@@ -152,6 +152,7 @@ class ModeloGastos{
 		$stmt->bindParam(":categoria", $datos["categoria"], PDO::PARAM_STR);
 		$stmt->bindParam(":nombre_gasto", $datos["nombre_gasto"], PDO::PARAM_STR);
 		$stmt->bindParam(":fecha_crea", $datos["fecha_crea"], PDO::PARAM_STR);
+		$stmt->bindParam(":tipo_registro", $datos["tipo_registro"], PDO::PARAM_STR);
 
 		if($stmt->execute()){
 
@@ -174,7 +175,7 @@ class ModeloGastos{
 
 	static public function mdlEditarGasto($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET id_proveedor = :id_proveedor, forma_pago = :forma_pago, monto = :monto, categoria = :categoria, nombre_gasto = :nombre_gasto, id_usuario = :id_usuario WHERE id = :id");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET id_proveedor = :id_proveedor, forma_pago = :forma_pago, monto = :monto, categoria = :categoria, nombre_gasto = :nombre_gasto, id_usuario = :id_usuario, tipo_registro = :tipo_registro WHERE id = :id");
 
 		$stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 		$stmt->bindParam(":id_proveedor", $datos["id_proveedor"], PDO::PARAM_INT);
@@ -183,6 +184,7 @@ class ModeloGastos{
 		$stmt->bindParam(":categoria", $datos["categoria"], PDO::PARAM_STR);
 		$stmt->bindParam(":nombre_gasto", $datos["nombre_gasto"], PDO::PARAM_STR);
 		$stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+		$stmt->bindParam(":tipo_registro", $datos["tipo_registro"], PDO::PARAM_STR);
 
 		if($stmt->execute()){
 

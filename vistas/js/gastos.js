@@ -61,6 +61,8 @@ $(".tablas").on("click", ".btnEditarGasto", function () {
       })
 
       $("#idGasto").val(respuesta["id"]);
+      $("#editarTipoGasto").html(respuesta["tipo_registro"]);
+      $("#editarTipoGasto").val(respuesta["tipo_registro"]);
       $("#editarCategoriaG").html(respuesta["categoria"]);
       $("#editarCategoriaG").val(respuesta["categoria"]);
       $("#editarMonto").val(respuesta["monto"]);
@@ -101,3 +103,135 @@ $(".tablas").on("click", ".btnEliminarGasto", function () {
   })
 
 })
+
+
+/*=============================================
+SELECT TIPO DE REGISTRO
+=============================================*/
+$(document).ready(function() {
+  $('#nuevoTipoGasto').change(function() {
+      var pais = $(this).val();
+
+      //console.log("pais", pais);
+
+      // Limpiar las opciones existentes
+      $('#nuevaCategoriaG').empty();
+      $('#nuevoMonto').val('');
+
+      if (pais == 'Gasto') {
+
+        $('#nuevoMonto').change(function() {
+            var valor = $(this).val();
+            var numero = parseFloat(valor);
+            
+            // Si el número es positivo, cambia su signo a negativo
+            if (numero < 0) {
+                $(this).val(-numero);
+            }
+        });
+
+
+        $('#nuevoMonto').attr('min', '0');
+        $('#nuevaCategoriaG').append('<option value="" selected>Selecionar categoría</option>');
+          $('#nuevaCategoriaG').append('<option value="Productos e insumos">Productos e insumos</option>');
+          $('#nuevaCategoriaG').append('<option value="Servicios públicos">Servicios públicos</option>');
+          $('#nuevaCategoriaG').append('<option value="Arriendo">Arriendo</option>');
+          $('#nuevaCategoriaG').append('<option value="Nómina">Nómina</option>');
+          $('#nuevaCategoriaG').append('<option value="Publicidad">Publicidad</option>');
+          $('#nuevaCategoriaG').append('<option value="Impuestos">Impuestos</option>');
+          $('#nuevaCategoriaG').append('<option value="Otro">Otro</option>');
+
+      } else if (pais == 'Ingreso') {
+
+        // Limpiar las opciones existentes
+        $('#nuevaCategoriaG').empty();
+        $('#nuevoMonto').val('');
+
+        $('#nuevoMonto').change(function() {
+          var valor = $(this).val();
+          var numero = parseFloat(valor);
+          
+          // Si el número es positivo, cambia su signo a negativo
+          if (numero > 0) {
+              $(this).val(-numero);
+          }
+        });
+
+          $('#nuevoMonto').removeAttr('min');
+          $('#nuevaCategoriaG').append('<option value="" selected>Selecionar categoría</option>');
+          $('#nuevaCategoriaG').append('<option value="Servicios/Honorarios">Servicios/Honorarios</option>');
+          $('#nuevaCategoriaG').append('<option value="Ingresosfinancieros">Ingresos financieros</option>');
+          $('#nuevaCategoriaG').append('<option value="Propiedad intelectual">Propiedad intelectual</option>');
+          $('#nuevaCategoriaG').append('<option value="Otros ingresos">Otros ingresos</option>');
+          
+
+      }
+  });
+});
+
+
+/*=============================================
+EDITAR TIPO DE REGISTRO
+=============================================*/
+$(document).ready(function() {
+  $('[name="editarTipoGasto"]').change(function() {
+      var editC = $(this).val();
+   
+      console.log("editC", editC);
+
+      // Limpiar las opciones existentes
+      $('[name="editarCategoriaG"]').empty();
+      $('[name="editarMonto"]').val('');
+
+      if (editC == 'Gasto') {
+
+        $('[name="editarMonto"]').change(function() {
+            var valor = $(this).val();
+            var numero = parseFloat(valor);
+            
+            // Si el número es positivo, cambia su signo a negativo
+            if (numero < 0) {
+                $(this).val(-numero);
+            }
+        });
+
+
+        $('[name="editarMonto"]').attr('min', '0');
+        $('[name="editarCategoriaG"]').append('<option value="" selected>Selecionar categoría</option>');
+          $('[name="editarCategoriaG"]').append('<option value="Productos e insumos">Productos e insumos</option>');
+          $('[name="editarCategoriaG"]').append('<option value="Servicios públicos">Servicios públicos</option>');
+          $('[name="editarCategoriaG"]').append('<option value="Arriendo">Arriendo</option>');
+          $('[name="editarCategoriaG"]').append('<option value="Nómina">Nómina</option>');
+          $('[name="editarCategoriaG"]').append('<option value="Publicidad">Publicidad</option>');
+          $('[name="editarCategoriaG"]').append('<option value="Impuestos">Impuestos</option>');
+          $('[name="editarCategoriaG"]').append('<option value="Otro">Otro</option>');
+
+      } else if (editC == 'Ingreso') {
+
+        // Limpiar las opciones existentes
+        $('[name="editarCategoriaG"]').empty();
+        $('[name="editarMonto"]').val('');
+
+        $('[name="editarMonto"]').change(function() {
+          var valor = $(this).val();
+          var numero = parseFloat(valor);
+          
+          // Si el número es positivo, cambia su signo a negativo
+          if (numero > 0) {
+              $(this).val(-numero);
+          }
+        });
+
+          $('[name="editarMonto"]').removeAttr('min');
+          $('[name="editarCategoriaG"]').append('<option value="" selected>Selecionar categoría</option>');
+          $('[name="editarCategoriaG"]').append('<option value="Servicios/Honorarios">Servicios/Honorarios</option>');
+          $('[name="editarCategoriaG"]').append('<option value="Ingresosfinancieros">Ingresos financieros</option>');
+          $('[name="editarCategoriaG"]').append('<option value="Propiedad intelectual">Propiedad intelectual</option>');
+          $('[name="editarCategoriaG"]').append('<option value="Otros ingresos">Otros ingresos</option>');
+          
+
+      }
+  });
+});
+
+

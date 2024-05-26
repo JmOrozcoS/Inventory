@@ -55,7 +55,7 @@ class ControladorGastos{
 		if(isset($_POST["nuevoConcepto"])){
 
 			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.:+@#$%&()_* ]+$/', $_POST["nuevoConcepto"]) &&
-			   preg_match('/^[0-9]+$/', $_POST["nuevoMonto"])){
+			   preg_match('/^-?[0-9]+(\.[0-9]+)?$/', $_POST["nuevoMonto"])){
 
 				date_default_timezone_set('America/Bogota');
 
@@ -72,6 +72,7 @@ class ControladorGastos{
 							   "categoria"=>$_POST["nuevaCategoriaG"],
 							   "forma_pago"=>$_POST["nuevoMpago"],
 					           "nombre_gasto"=>$_POST["nuevoConcepto"],
+							   "tipo_registro"=>$_POST["nuevoTipoGasto"],
 							   "fecha_crea" => $valor1b);
 
 			   	$respuesta = ModeloGastos::mdlIngresarGasto($tabla, $datos);
@@ -133,7 +134,7 @@ class ControladorGastos{
 		if(isset($_POST["editarConcepto"])){
 
 			if(preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ.:+@#$%&()_* ]+$/', $_POST["editarConcepto"]) &&
-			   preg_match('/^[0-9]+$/', $_POST["editarMonto"])){
+			   preg_match('/^-?[0-9]+(\.[0-9]+)?$/', $_POST["editarMonto"])){
 
 
 			   	$tabla = "gastos";
@@ -144,7 +145,8 @@ class ControladorGastos{
 					           "forma_pago"=>$_POST["editarMpago"],
 					           "monto"=>$_POST["editarMonto"],
 							   "categoria"=>$_POST["editarCategoriaG"],
-					           "nombre_gasto"=>$_POST["editarConcepto"]);
+					           "nombre_gasto"=>$_POST["editarConcepto"],
+							   "tipo_registro"=>$_POST["editarTipoGasto"]);
 
 			   	$respuesta = ModeloGastos::mdlEditarGasto($tabla, $datos);
 
