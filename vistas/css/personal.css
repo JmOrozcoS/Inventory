@@ -539,3 +539,30 @@ select option:hover {
     color: #fff; /* Color de texto blanco en el hover */
     border-color: #526c77; /* Color de borde negro en el hover */
 }
+
+
+.btnDevolverVenta {
+    padding: 4px 7px; /* ajusta el relleno según sea necesario */
+    font-size: 12px; /* ajusta el tamaño de la fuente según sea necesario */
+  }
+
+  .btnRenovarVenta {
+    padding: 4px 7px; /* ajusta el relleno según sea necesario */
+    font-size: 12px; /* ajusta el tamaño de la fuente según sea necesario */
+  }
+
+  .btnContactar{
+    padding: 4px 7px; /* ajusta el relleno según sea necesario */
+    font-size: 12px; /* ajusta el tamaño de la fuente según sea necesario */
+  }
+
+  /* Tabla Costos*/
+  .btnDevolverCosto {
+    padding: 4px 7px; /* ajusta el relleno según sea necesario */
+    font-size: 12px; /* ajusta el tamaño de la fuente según sea necesario */
+  }
+
+  .btnRenovarCosto {
+    padding: 4px 7px; /* ajusta el relleno según sea necesario */
+    font-size: 12px; /* ajusta el tamaño de la fuente según sea necesario */
+  }

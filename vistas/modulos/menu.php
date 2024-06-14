@@ -116,6 +116,14 @@
                     </li>
 
                     <li>
+                        <a href="devoluciones">
+                            <i class="fa fa-line-chart"></i>
+                            <span>Devoluciones</span>
+                        </a>
+
+                    </li>
+
+                    <li>
                         <a href="reportes">
                             <i class="fa fa-pie-chart"></i>
                             <span>Reporte de ventas</span>

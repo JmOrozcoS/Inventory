@@ -689,7 +689,17 @@ if ($_SESSION["perfil"] == "Especial") {
 
                   echo '<td>' . $valueG["categoria"] . '</td>';
 
-                  echo '<td>$ ' . number_format($valueG["monto"], 2) . '</td>
+                  // Obtener el valor del monto
+                  $monto = $valueG["monto"];
+
+                  // Determinar el color del texto
+                  $color = ($monto < 0) ? "green" : "red";
+
+                  // Agregar negrita al texto
+                  $texto = ($monto < 0) ? "<strong>$ " . number_format($monto, 2) . "</strong>" : "$ " . number_format($monto, 2);
+
+                  // Imprimir el valor formateado con el color determinado y negrita
+                  echo '<td style="color: ' . $color . '">'. $texto .'</td>
 
                    <td>' . $valueG["nombre_gasto"] . '</td>';
 

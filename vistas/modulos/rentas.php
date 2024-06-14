@@ -152,6 +152,7 @@
                     <div class='btn-group'>
 
                     <button class='btn btn-success btnContactar' title = 'Contactar cliente' producto='" . $descripcionProductos . "' fVencimiento='" . $value["vencimiento"] . "' nCliente='" . $respuestaCliente["nombre"] . "' cCliente='" . $respuestaCliente["telefono"] . "'><i class='fa fa-whatsapp'></i></button></b>";
+                    
               } elseif ($value['estado'] == "R") {
                 echo "<b class='label label-primary'>Renovado<td>
 
@@ -163,17 +164,23 @@
 
                     <div class='btn-group'>
 
+                    <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idVenta='" . $value["id"] . "'><i class='fa fa-retweet'></i></button>
+
                     <button class='btn btn-twitter btnRenovarVenta' title = 'Renovar' estadoVenta='R' idVenta='" . $value["id"] . "'><i class='fa fa-refresh'></i></button>
 
                     <button class='btn btn-success btnContactar' title = 'Contactar cliente' producto='" . $descripcionProductos . "' fVencimiento='" . $value["vencimiento"] . "' nCliente='" . $respuestaCliente["nombre"] . "' cCliente='" . $respuestaCliente["telefono"] . "'><i class='fa fa-whatsapp'></i></button></b>";
+
               } elseif ($fecha_Vencimiento <= $fecha_actual) {
                 echo "<b class='label label-danger'>VENCIDO<td>
 
                     <div class='btn-group'>
 
                     <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idVenta='" . $value["id"] . "'><i class='fa fa-retweet'></i></button>
+
                     <button class='btn btn-twitter btnRenovarVenta' title = 'Renovar' estadoVenta='R' idVenta='" . $value["id"] . "'><i class='fa fa-refresh'></i></button>
+
                     <button class='btn btn-success btnContactar' title = 'Contactar cliente' producto='" . $descripcionProductos . "' fVencimiento='" . $value["vencimiento"] . "' nCliente='" . $respuestaCliente["nombre"] . "' cCliente='" . $respuestaCliente["telefono"] . "'><i class='fa fa-whatsapp'></i></button></b>";
+
 
 
               } elseif ($intervalo->days <= 6) {
