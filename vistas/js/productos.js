@@ -487,7 +487,7 @@ $(document).ready(function () {
     $('.edit-category-button').click(function () {
         const categorySidebar = $('.category-sidebar');
         if (categorySidebar.css('right') === '0px') {
-            categorySidebar.css('right', '-426px'); // Cierra la ventana deslizante
+            categorySidebar.css('right', '-100%'); // Cierra la ventana deslizante
         } else {
             categorySidebar.css('right', '0px'); // Abre la ventana deslizante
         }

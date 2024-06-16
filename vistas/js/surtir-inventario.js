@@ -13,6 +13,10 @@ $.ajax({
 
 })
 
+/*=============================================
+SELECT2
+=============================================*/
+
 $(document).ready(function () {
 	// Inicializar el select con Select2 
 	$("#seleccionarProveedor").select2({
@@ -22,6 +26,8 @@ $(document).ready(function () {
 	});
 
 });
+
+
 
 $('.tablaSurtirInventario').DataTable({
 	"ajax": "ajax/datatable-surtir-inventario.ajax.php",
@@ -265,114 +271,82 @@ $(".formularioSurtirInventario").on("click", "button.quitarProducto", function (
 
 
 
-/*=============================================
-AGREGANDO PRODUCTOS DESDE EL BOTÓN PARA DISPOSITIVOS
-=============================================*/
-
-var numProducto = 0;
-
 $(".btnAgregarProductoI").click(function () {
+    numProducto++;
 
-	numProducto++;
+    var datos = new FormData();
+    datos.append("traerProductos", "ok");
 
-	var datos = new FormData();
-	datos.append("traerProductos", "ok");
+    $.ajax({
+        url: "ajax/productos.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        dataType: "json",
+        success: function (respuesta) {
+            $(".nuevoProducto").append(
+                '<div class="row" style="padding:5px 15px">' +
+                '   <!-- Descripción del producto -->' +
+                '   <div class="col-xs-6" style="padding-right:0px">' +
+                '       <div class="input-group">' +
+                '           <span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs quitarProducto" idProducto><i class="fa fa-trash"></i></button></span>' +
+                '           <select class="form-control nuevaDescripcionProducto" style="padding:0px 0px; max-width: 100%;" id="producto_' + numProducto + '" name="nuevaDescripcionProducto" required>' +
+                '               <option>Seleccione el producto</option>' +
+                '           </select>' +
+                '       </div>' +
+                '   </div>' +
+                '   <!-- Cantidad del producto -->' +
+                '   <div class="col-xs-2 ingresoCantidad">' +
+                '       <input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" value="1" stock nuevoStock required style="padding:0px 4px" placeholder="0">' +
+                '   </div>' +
+                '   <!-- Precio del producto -->' +
+                '   <div class="col-xs-4 ingresoPrecio" style="padding-left:0px">' +
+                '       <div class="input-group">' +
+                '           <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>' +
+                '           <input type="text" class="form-control nuevoPrecioProducto" precioReal="" name="nuevoPrecioProducto" readonly required>' +
+                '       </div>' +
+                '   </div>' +
+                '</div>'
+            );
 
-	$.ajax({
+            // Agregar opciones al select
+            respuesta.forEach(function (item, index) {
+                if (item.estado != 0) {
+                    $("#producto_" + numProducto).append(
+                        '<option idProducto="' + item.id + '" value="' + item.descripcion + '">' + item.descripcion + '</option>'
+                    );
+                }
+            });
 
-		url: "ajax/productos.ajax.php",
-		method: "POST",
-		data: datos,
-		cache: false,
-		contentType: false,
-		processData: false,
-		dataType: "json",
-		success: function (respuesta) {
+            // Inicializar Select2 en el nuevo select
+            $('#producto_' + numProducto).select2({
+                placeholder: "Seleccione el producto",
+                width: '100%', // Ajustar el ancho según tu diseño
+                templateSelection: function (data, container) {
+                    // Calcular el ancho del contenedor padre
+                    var maxWidth = container.css('width').replace('px', '');
 
-			$(".nuevoProducto").append(
+                    // Calcular la cantidad de caracteres en función del ancho disponible
+                    var maxLength = Math.floor(maxWidth / 10); // Ajusta este número según el tamaño de fuente y el espacio disponible
 
-				'<div class="row" style="padding:5px 15px">' +
+                    // Cortar el texto si es muy largo
+                    return data.text.length > maxLength ? data.text.substring(0, maxLength) + '...' : data.text;
+                }
+            });
 
-				'<!-- Descripción del producto -->' +
+            // SUMAR TOTAL DE PRECIOS
+            sumarTotalPrecios();
 
-				'<div class="col-xs-6" style="padding-right:0px">' +
+            // AGREGAR Descuento
+            agregarDescuento();
 
-				'<div class="input-group">' +
-
-				'<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs quitarProducto" idProducto><i class="fa fa-trash"></i></button></span>' +
-
-				'<select class="form-control nuevaDescripcionProducto" style="padding:0px 0px" id="producto' + numProducto + '" idProducto name="nuevaDescripcionProducto" required>' +
-
-				'<option>Seleccione el producto</option>' +
-
-				'</select>' +
-
-				'</div>' +
-
-				'</div>' +
-
-				'<!-- Cantidad del producto -->' +
-
-				'<div class="col-xs-2 ingresoCantidad">' +
-
-				'<input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto"  min="1" value="1" stock nuevoStock required style="padding:0px 4px" placeholder="0">' +
-
-				'</div>' +
-
-				'<!-- Precio del producto -->' +
-
-				'<div class="col-xs-4 ingresoPrecio" style="padding-left:0px">' +
-
-				'<div class="input-group">' +
-
-				'<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>' +
-
-				'<input type="text" class="form-control nuevoPrecioProducto" precioReal="" name="nuevoPrecioProducto" readonly required>' +
-
-				'</div>' +
-
-				'</div>' +
-
-				'</div>');
-
-
-			// AGREGAR LOS PRODUCTOS AL SELECT 
-
-			respuesta.forEach(funcionForEach);
-
-			function funcionForEach(item, index) {
-
-				if (item.estado != 0) {
-
-					$("#producto" + numProducto).append(
-
-						'<option idProducto="' + item.id + '" value="' + item.descripcion + '">' + item.descripcion + '</option>'
-					)
-
-				}
-
-			}
-
-			// SUMAR TOTAL DE PRECIOS
-
-			sumarTotalPrecios()
-
-			// AGREGAR Descuento
-
-			agregarDescuento()
-
-			// PONER FORMATO AL PRECIO DE LOS PRODUCTOS
-
-			$(".nuevoPrecioProducto").number(true, 2);
-
-		}
-
-
-	})
-
-})
-
-
+            // PONER FORMATO AL PRECIO DE LOS PRODUCTOS
+            $(".nuevoPrecioProducto").number(true, 2);
+        }
+    });
+});
 
 
 

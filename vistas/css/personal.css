@@ -407,25 +407,15 @@ header h1 {
 
 /*Texto del modulo de alquiler*/
 
-.label.label-success {
+.label.label-success,
+.label.label-danger,
+.label.label-warning,
+.label.label-primary
+ {
     font-size: 12px;
     /* Cambia el tamaño de la fuente según tus preferencias */
 }
 
-.label.label-danger {
-    font-size: 12px;
-    /* Cambia el tamaño de la fuente según tus preferencias */
-}
-
-.label.label-warning {
-    font-size: 12px;
-    /* Cambia el tamaño de la fuente según tus preferencias */
-}
-
-.label.label-primary {
-    font-size: 12px;
-    /* Cambia el tamaño de la fuente según tus preferencias */
-}
 
 .custom-label {
     background-color: #526c77;
@@ -479,7 +469,7 @@ select option:hover {
 }
 
 
-/* styles.css */
+/* SIDEBAR para las categorias */
 .category-sidebar {
     width: 426px; /* Ajusta el ancho según tus necesidades */
     /*width: 0;*/
@@ -496,6 +486,22 @@ select option:hover {
     padding-top: 90px;
     z-index: 1; /* Asegura que el sidebar esté encima del contenido principal */
 }
+/* Ajuste para pantallas medianas */
+@media (max-width: 992px) {
+    .category-sidebar {
+        width: 320px;
+        right: -320px; /* Oculta el sidebar */
+        padding-top: 100px;
+    }
+}
+/* Estilos para pantallas pequeñas (móviles) */
+@media (max-width: 767px) {
+    .category-sidebar {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        right: -100%; /* Sidebar oculto fuera de la pantalla */
+    }
+}
+
 
 .category-sidebar ul {
     list-style: none;
@@ -521,8 +527,6 @@ select option:hover {
     color: #526c77;
 }
 
-
-
 .edit-category-button {
     background-color: transparent;
     border: 2px solid #526c77; /* Color de borde negro */
@@ -540,29 +544,63 @@ select option:hover {
     border-color: #526c77; /* Color de borde negro en el hover */
 }
 
+/*Estilo de los botones de las tablas*/
+.btnEditarProducto,
+.btnEliminarProducto,
+.btnEditarCategoria,
+.btnEliminarCategoria,
+.btnRenovarVenta,
+.btnContactar,
+.btnImprimirVenta,
+.btnDevolverVenta,
+.btnDevolverCosto,
+.btnRenovarCosto,
+.btnImprimirGasto,
+.btnEditarGasto,
+.btnEliminarGasto,
+.btnEditarCliente,
+.btnEliminarCliente,
+.btnEditarProveedor,
+.btnEliminarProveedor,
+.btnEditarUsuario,
+.btnEliminarUsuario {
+  padding: 4px 9px;
+  font-size: 12px;
+}
 
-.btnDevolverVenta {
-    padding: 4px 7px; /* ajusta el relleno según sea necesario */
-    font-size: 12px; /* ajusta el tamaño de la fuente según sea necesario */
-  }
 
-  .btnRenovarVenta {
-    padding: 4px 7px; /* ajusta el relleno según sea necesario */
-    font-size: 12px; /* ajusta el tamaño de la fuente según sea necesario */
-  }
+/* Buscador de Datatables*/
 
-  .btnContactar{
-    padding: 4px 7px; /* ajusta el relleno según sea necesario */
-    font-size: 12px; /* ajusta el tamaño de la fuente según sea necesario */
-  }
+/* Estilo del contenedor del buscador */
+.dataTables_wrapper .dataTables_filter {
+    float: right;
+    margin-bottom: 10px;
+}
+/* Estilo del input del buscador */
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid #ccc;
+    padding: 10px;
+    width: 250px;
+    border-radius: 5px;
+    background-color: #f5f5f5;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+/* Placeholder */
+.dataTables_wrapper .dataTables_filter input::placeholder {
+    color: #999;
+}
+/* Estilo del texto dentro del input */
+.dataTables_wrapper .dataTables_filter input[type="search"] {
+    outline: none;
+}
+/* Hover */
+.dataTables_wrapper .dataTables_filter input:hover,
+.dataTables_wrapper .dataTables_filter input:focus {
+    background-color: #e0e0e0;
+}
 
-  /* Tabla Costos*/
-  .btnDevolverCosto {
-    padding: 4px 7px; /* ajusta el relleno según sea necesario */
-    font-size: 12px; /* ajusta el tamaño de la fuente según sea necesario */
-  }
 
-  .btnRenovarCosto {
-    padding: 4px 7px; /* ajusta el relleno según sea necesario */
-    font-size: 12px; /* ajusta el tamaño de la fuente según sea necesario */
-  }
+
+
+

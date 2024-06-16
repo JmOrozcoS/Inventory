@@ -341,7 +341,7 @@ if ($_SESSION["perfil"] == "Especial") {
  
                      <div class="btn-group">
                          
-                       <button class="btn btn-info"><i class="fa fa-print"></i></button>';
+                       <button class="btn btn-info btnImprimirVenta"><i class="fa fa-print"></i></button>';
 
                   if ($_SESSION["perfil"] == "Administrador") {
 
@@ -749,7 +749,7 @@ if ($_SESSION["perfil"] == "Especial") {
  
                      <div class="btn-group">  
 
-                     <button class="btn btn-info"><i class="fa fa-print"></i></button>';
+                     <button class="btn btn-info btnImprimirGasto"><i class="fa fa-print"></i></button>';
 
                   if ($_SESSION["perfil"] == "Administrador") {
 

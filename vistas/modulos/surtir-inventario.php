@@ -146,8 +146,6 @@ if ($_SESSION["perfil"] == "Administrador" || $_SESSION["perfil"] == "Sub-Admini
 
 
                   </div>
-                  <button type="button" class="btn btn-md pull-left styleCosto" data-toggle="modal"
-                    data-target="#modalAgregarProductos" data-dismiss="modal">Agregar productos</button>
 
                   <button type="button" class="btn btn-md pull-right styleCosto" data-toggle="modal"
                     data-target="#modalAgregarProveedor" data-dismiss="modal">Agregar proveedor</button>
