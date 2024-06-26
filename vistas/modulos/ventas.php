@@ -341,7 +341,8 @@ if ($_SESSION["perfil"] == "Especial") {
  
                      <div class="btn-group">
                          
-                       <button class="btn btn-info btnImprimirVenta"><i class="fa fa-print"></i></button>';
+                       <button class="btn btn-info btnImprimirVenta" 
+                       codigoVenta="'. $valueV["codigo"] . '"><i class="fa fa-print"></i></button>';
 
                   if ($_SESSION["perfil"] == "Administrador") {
 

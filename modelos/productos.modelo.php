@@ -302,4 +302,48 @@ class ModeloProductos{
 
 
 
+	/*=============================================
+	MOSTRAR SUMA VENTAS
+	=============================================*/
+
+	static public function mdlMostrarSumaVentas($tabla){
+
+		$stmt = Conexion::conectar()->prepare("SELECT SUM(ventas) as total FROM $tabla");
+
+		$stmt -> execute();
+
+		return $stmt -> fetch();
+
+		$stmt -> close();
+
+		$stmt = null;
+	}
+
+
+
+	/*=============================================
+	VENTAS POR CATEGORIA
+	=============================================*/
+	static public function mdlVentasCategorias($tabla){
+
+		$stmt = Conexion::conectar()->prepare("SELECT p.imagen, c.categoria, SUM(p.ventas) AS total_ventas
+												FROM $tabla p
+												INNER JOIN categorias c ON p.id_categoria = c.id
+												GROUP BY p.id_categoria, c.categoria
+												ORDER BY total_ventas DESC");
+	
+		$stmt -> execute();
+	
+		return $stmt -> fetchAll();
+	
+		$stmt -> close();
+	
+		$stmt = null;
+	
+	}
+	
+
+
+
+
 }

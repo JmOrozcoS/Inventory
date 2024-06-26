@@ -322,66 +322,53 @@ $(".btnAgregarProducto").click(function () {
 			$(".nuevoProducto").append(
 
 				'<div class="row" style="padding:5px 15px">' +
-
-				'<!-- Descripción del producto -->' +
-
-				'<div class="col-xs-6" style="padding-right:0px">' +
-
-				'<div class="input-group">' +
-
-				'<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs quitarProducto" idProducto><i class="fa fa-trash"></i></button></span>' +
-
-				'<select class="form-control nuevaDescripcionProducto" style="padding:0px 3px" id="producto' + numProducto + '" idProducto name="nuevaDescripcionProducto" required>' +
-
-				'<option>Seleccione el producto</option>' +
-
-				'</select>' +
-
-				'</div>' +
-
-				'</div>' +
-
-				'<!-- Cantidad del producto -->' +
-
-				'<div class="col-xs-2 ingresoCantidad">' +
-
-				'<input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" value="1" stock nuevoStock required style="padding:0px 4px" placeholder="0">' +
-
-				'</div>' +
-
-				'<!-- Precio del producto -->' +
-
-				'<div class="col-xs-4 ingresoPrecio" style="padding-left:0px">' +
-
-				'<div class="input-group">' +
-
-				'<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>' +
-
-				'<input type="text" class="form-control nuevoPrecioProducto" precioReal="" name="nuevoPrecioProducto" readonly required>' +
-
-				'</div>' +
-
-				'</div>' +
-
-				'</div>');
+                '   <!-- Descripción del producto -->' +
+                '   <div class="col-xs-6" style="padding-right:0px">' +
+                '       <div class="input-group">' +
+                '           <span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs quitarProducto" idProducto><i class="fa fa-trash"></i></button></span>' +
+                '           <select class="form-control nuevaDescripcionProducto" style="padding:0px 0px; max-width: 100%;" id="producto_' + numProducto + '" name="nuevaDescripcionProducto" required>' +
+                '               <option>Seleccione el producto</option>' +
+                '           </select>' +
+                '       </div>' +
+                '   </div>' +
+                '   <!-- Cantidad del producto -->' +
+                '   <div class="col-xs-2 ingresoCantidad">' +
+                '       <input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" value="1" stock nuevoStock required style="padding:0px 4px" placeholder="0">' +
+                '   </div>' +
+                '   <!-- Precio del producto -->' +
+                '   <div class="col-xs-4 ingresoPrecio" style="padding-left:0px">' +
+                '       <div class="input-group">' +
+                '           <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>' +
+                '           <input type="text" class="form-control nuevoPrecioProducto" precioReal="" name="nuevoPrecioProducto" readonly required>' +
+                '       </div>' +
+                '   </div>' +
+                '</div>');
 
 
-			// AGREGAR LOS PRODUCTOS AL SELECT 
+			// Agregar opciones al select
+            respuesta.forEach(function (item, index) {
+                if (item.estado != 0) {
+                    $("#producto_" + numProducto).append(
+                        '<option idProducto="' + item.id + '" value="' + item.descripcion + '">' + item.descripcion + '</option>'
+                    );
+                }
+            });
 
-			respuesta.forEach(funcionForEach);
+            // Inicializar Select2 en el nuevo select
+            $('#producto_' + numProducto).select2({
+                placeholder: "Seleccione el producto",
+                width: '100%', // Ajustar el ancho según tu diseño
+                templateSelection: function (data, container) {
+                    // Calcular el ancho del contenedor padre
+                    var maxWidth = container.css('width').replace('px', '');
 
-			function funcionForEach(item, index) {
+                    // Calcular la cantidad de caracteres en función del ancho disponible
+                    var maxLength = Math.floor(maxWidth / 10); // Ajusta este número según el tamaño de fuente y el espacio disponible
 
-				if (item.stock != 0) {
-
-					$("#producto" + numProducto).append(
-
-						'<option idProducto="' + item.id + '" value="' + item.descripcion + '">' + item.descripcion + '</option>'
-					)
-
-				}
-
-			}
+                    // Cortar el texto si es muy largo
+                    return data.text.length > maxLength ? data.text.substring(0, maxLength) + '...' : data.text;
+                }
+            });
 
 			// SUMAR TOTAL DE PRECIOS
 
@@ -1433,6 +1420,19 @@ $(".daterangepicker.opensleft .ranges li").on("click", function () {
 		window.location = "index.php?ruta=ventas&fechaInicial=" + fechaInicial + "&fechaFinal=" + fechaFinal;
 
 	}
+
+})
+
+
+/*=============================================
+IMPRIMIR FACTURA
+=============================================*/
+$(".tablas").on("click", ".btnImprimirVenta", function () {
+
+	var codigoVenta = $(this).attr("codigoVenta");
+
+	window.open("extensiones/tcpdf/pdf/factura.php?codigo="+codigoVenta, "_blank");
+
 
 })
 

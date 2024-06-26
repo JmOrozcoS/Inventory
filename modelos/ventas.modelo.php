@@ -356,5 +356,24 @@ class ModeloVentas
 		}
 
 	}
+	
+
+	/*=============================================
+	SUMAR EL TOTAL DE VENTAS
+	=============================================*/
+
+	static public function mdlSumaTotalVentas($tabla){	
+
+		$stmt = Conexion::conectar()->prepare("SELECT SUM(total) as total FROM $tabla");
+
+		$stmt -> execute();
+
+		return $stmt -> fetch();
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
 
 }

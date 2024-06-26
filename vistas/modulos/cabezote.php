@@ -1,7 +1,7 @@
 <header class="main-header">
     <!-- ====================
     LOGOTIPO
-    <!-- ==================== -->
+     ==================== -->
     <a href="inicio" class="logo">
 
         <!--logo mini-->
@@ -11,7 +11,7 @@
         </span>
         <!--logo normal-->
         <span class="logo-lg">
-            <img src="vistas/img/plantilla/logo-blanco-lineal.png" class="img-responsive"">
+            <img src="vistas/img/plantilla/logo-blanco-lineal.png" class="img-responsive">
 
         </span>
 
@@ -36,7 +36,7 @@
 
                     <li class="dropdown user user-menu">
 
-                        <a href="#" dropdown-toggle" data-toggle="dropdown">
+                        <a href="#" dropdown-toggle data-toggle="dropdown">
 
                             <?php
 
@@ -124,7 +124,7 @@
 
 <!-- ====================
 MODAL EDITAR USUARIO
-<!-- ==================== -->
+ ==================== -->
 
             <!-- Modal -->
             <div id="modalEditarUsuario2" class="modal fade" role="dialog">
@@ -137,7 +137,7 @@ MODAL EDITAR USUARIO
 
                             <!-- ====================
             CABEZA DEL MODAL
-            <!-- ==================== -->
+            ==================== -->
 
                             <div class="modal-header" style="background: #3c8dbc; color:white">
 
@@ -149,7 +149,7 @@ MODAL EDITAR USUARIO
 
                             <!-- ====================
             CUERPO DEL MODAL
-            <!-- ==================== -->
+             ==================== -->
 
                             <div class="modal-body">
 
@@ -157,7 +157,7 @@ MODAL EDITAR USUARIO
 
                                     <!-- ====================
                     ENTRADA PARA EL NOMBRE
-                    <!-- ==================== -->
+                     ==================== -->
 
                                     <div class="form-group">
 
@@ -178,7 +178,7 @@ MODAL EDITAR USUARIO
 
                                     <!-- ====================
                     ENTRADA PARA EL USUARIO
-                    <!-- ==================== -->
+                    ==================== -->
 
                                     <div class="form-group">
 
@@ -199,7 +199,7 @@ MODAL EDITAR USUARIO
 
                                     <!-- ====================
                     ENTRADA PARA LA CONTRASEÑA
-                    <!-- ==================== -->
+                    ==================== -->
 
                                     <div class="form-group">
 
@@ -221,7 +221,7 @@ MODAL EDITAR USUARIO
 
                                     <!-- ====================
                     ENTRADA PARA SELECCION E PERFIL
-                    <!-- ==================== -->
+                     ==================== -->
 
                                     <div class="form-group">
 
@@ -242,8 +242,7 @@ MODAL EDITAR USUARIO
                                     </div>
 
                                     <!-- ====================
-                ENTRADA PARA SUBIR FOTO
-                <!-- ==================== -->
+                                     ENTRADA PARA SUBIR FOTO-->
 
                                     <div class="form-group">
 
@@ -266,7 +265,7 @@ MODAL EDITAR USUARIO
 
                             <!-- ====================
             PIE DE PÁGINA DEL MODAL
-            <!-- ==================== -->
+             ==================== -->
 
                             <div class="modal-footer">
 

@@ -100,7 +100,7 @@ $(".btnEditarUsuario2").on("click", function(){
 	var datos = new FormData();
 	datos.append("idUsuario", idUsuario);
 
-	//console.log("idUsuario", idUsuario);
+	console.log("idUsuario", idUsuario);
 
 	$.ajax({
 

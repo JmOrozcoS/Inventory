@@ -82,10 +82,6 @@ class ControladorProductos
 	}
 
 
-
-
-
-
 	/*=============================================
 		  CREAR PRODUCTO
 		  =============================================*/
@@ -465,6 +461,34 @@ class ControladorProductos
 
 		}
 
+
+	}
+
+	/*=============================================
+	MOSTRAR SUMA VENTAS
+	=============================================*/
+
+	static public function ctrMostrarSumaVentas(){
+
+		$tabla = "productos";
+
+		$respuesta = ModeloProductos::mdlMostrarSumaVentas($tabla);
+
+		return $respuesta;
+
+	}
+
+	/*=============================================
+	MOSTRAR SUMA VENTAS
+	=============================================*/
+
+	static public function ctrVentasCategorias(){
+
+		$tabla = "productos";
+
+		$respuesta = ModeloProductos::mdlVentasCategorias($tabla);
+
+		return $respuesta;
 
 	}
 

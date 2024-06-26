@@ -208,6 +208,7 @@ CUERPO DOCUMENTO
 <script src="vistas/js/surtir-inventario.js"></script>
 <script src="vistas/js/proveedores.js"></script>
 <script src="vistas/js/mosaico.js"></script>
+<script src="vistas/js/reportes.js"></script>
 
 </body>
 </html>
