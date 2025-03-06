@@ -1,0 +1,21 @@
+Inventory Readme file
+----------------------
+
+Version 1.0.30
+Marzo 2025
+Contacto : jose.oro.seq@gmail.com
+---------------------------------
+Requerimientos:
+-------
+xampp-windows-x64-7.4.33
+usuario de pruebas: user: admin pass: jose123
+
+History
+-------
+
+1.0.30 - Marzo 2025
+--------------------------------------------------------------------------------------------------
+- Soporte Responsive, para ocultar logo en dispositivos pequeños, fechas cortas en modulo rentas y ventas).
+- 
+
+--------------------------------------------------------------------------------------------------

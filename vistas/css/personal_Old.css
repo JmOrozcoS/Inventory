@@ -93,11 +93,6 @@
     color: whitesmoke;
 }
 
-.tablaVentasListado thead {
-    background-color: #526c77;
-    color: whitesmoke;
-}
-
 .tablaVentas thead {
     background-color: #526c77;
     color: whitesmoke;
@@ -109,11 +104,6 @@
 }
 
 .tablaSurtirInventario thead {
-    background-color: #526c77;
-    color: whitesmoke;
-}
-
-.tablaSurtirInventarioR thead {
     background-color: #526c77;
     color: whitesmoke;
 }

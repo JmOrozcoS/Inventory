@@ -105,7 +105,7 @@ class ModeloVentas
 
 		if ($item != null) {
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item ORDER BY id DESC");
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item and estado not in ('R','NR') ORDER BY vencimiento");
 
 			$stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 

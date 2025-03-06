@@ -40,7 +40,7 @@ class TablaProductos
 							  TRAEMOS LA IMAGEN
 							  =============================================*/
 
-			$imagen = "<div align='center' valign='middle'><img src='" . $productos[$i]["imagen"] . "' width='40px'></div>";
+			$imagen = "<div align='center' valign='middle'><img src='" . $productos[$i]["imagen"] . "' width='35px'></div>";
 
 			/*=============================================
 							  TRAEMOS LA CATEGORÍA

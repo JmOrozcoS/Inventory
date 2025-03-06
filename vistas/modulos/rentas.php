@@ -65,7 +65,7 @@
 
       <div class="box-body">
 
-        <table class="table dt-responsive tablas tablaAlquiler tabla-redondeada" width="100%">
+        <table class="table dt-responsive tablaAlquiler tabla-redondeada" width="100%">
 
           <thead>
 
@@ -85,127 +85,7 @@
 
           </thead>
 
-          <tbody>
-
-            <?php
-
-            $item = "tipo_venta";
-            $valor = "Alquiler";
-
-            $respuesta = ControladorVentas::ctrMostrarAlquiler($item, $valor);
-
-            foreach ($respuesta as $key => $value) {
-
-
-              echo '<tr>
-
-                  <td>' . ($key + 1) . '</td>
-
-                  <td>' . $value["codigo"] . '</td>';
-
-              $itemCliente = "id";
-              $valorCliente = $value["id_cliente"];
-
-              $respuestaCliente = ControladorClientes::ctrMostrarClientes($itemCliente, $valorCliente);
-
-              echo '<td>' . $respuestaCliente["nombre"] . '</td>';
-
-
-              //Obtener la celda de productos
-              $json = $value["productos"];
-
-              // Decodificar el JSON de productos
-              $productos = json_decode($json, true);
-
-              // Inicializar una variable para concatenar descripciones de productos
-              $descripcionProductos = '';
-
-              foreach ($productos as $producto) {
-                $descripcionProductos .= $producto['descripcion'] . '<br> ';
-              }
-
-              // Eliminar la coma y el espacio al final de la cadena
-              $descripcionProductos = rtrim($descripcionProductos, ', ');
-
-              // Mostrar las descripciones de productos en la celda
-              echo '<td>' . $descripcionProductos . '</td>
-
-                  <td>$ ' . number_format($value["total"], 2) . '</td>
-
-                  <td><b class="text-#526c77"><i>' . $value["nombre_venta"] . '</i></b></td>
-
-                
-                  <td>' . $value["vencimiento"] . '</td>';
-
-              $fecha_actual = new DateTime();
-
-              $fecha_Vencimiento = new DateTime($value['vencimiento']);
-              ;
-
-              $intervalo = $fecha_actual->diff($fecha_Vencimiento);
-
-              echo '<td>';
-
-              if ($value['estado'] == "NR") {
-                echo "<b class='custom-label'>Devuelto<td>
-
-                    <div class='btn-group'>
-
-                    <button class='btn btn-success btnContactar' title = 'Contactar cliente' producto='" . $descripcionProductos . "' fVencimiento='" . $value["vencimiento"] . "' nCliente='" . $respuestaCliente["nombre"] . "' cCliente='" . $respuestaCliente["telefono"] . "'><i class='fa fa-whatsapp'></i></button></b>";
-                    
-              } elseif ($value['estado'] == "R") {
-                echo "<b class='label label-primary'>Renovado<td>
-
-                    <div class='btn-group'>
-
-                    <button class='btn btn-success btnContactar' title = 'Contactar cliente' producto='" . $descripcionProductos . "' fVencimiento='" . $value["vencimiento"] . "' nCliente='" . $respuestaCliente["nombre"] . "' cCliente='" . $respuestaCliente["telefono"] . "'><i class='fa fa-whatsapp'></i></button></b>";
-              } elseif ($fecha_Vencimiento >= $fecha_actual & $intervalo->days >= 6) {
-                echo "<b class='label label-success'>Vigente<td>
-
-                    <div class='btn-group'>
-
-                    <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idVenta='" . $value["id"] . "'><i class='fa fa-retweet'></i></button>
-
-                    <button class='btn btn-twitter btnRenovarVenta' title = 'Renovar' estadoVenta='R' idVenta='" . $value["id"] . "'><i class='fa fa-refresh'></i></button>
-
-                    <button class='btn btn-success btnContactar' title = 'Contactar cliente' producto='" . $descripcionProductos . "' fVencimiento='" . $value["vencimiento"] . "' nCliente='" . $respuestaCliente["nombre"] . "' cCliente='" . $respuestaCliente["telefono"] . "'><i class='fa fa-whatsapp'></i></button></b>";
-
-              } elseif ($fecha_Vencimiento <= $fecha_actual) {
-                echo "<b class='label label-danger'>VENCIDO<td>
-
-                    <div class='btn-group'>
-
-                    <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idVenta='" . $value["id"] . "'><i class='fa fa-retweet'></i></button>
-
-                    <button class='btn btn-twitter btnRenovarVenta' title = 'Renovar' estadoVenta='R' idVenta='" . $value["id"] . "'><i class='fa fa-refresh'></i></button>
-
-                    <button class='btn btn-success btnContactar' title = 'Contactar cliente' producto='" . $descripcionProductos . "' fVencimiento='" . $value["vencimiento"] . "' nCliente='" . $respuestaCliente["nombre"] . "' cCliente='" . $respuestaCliente["telefono"] . "'><i class='fa fa-whatsapp'></i></button></b>";
-
-
-
-              } elseif ($intervalo->days <= 6) {
-                echo "<b class='label label-warning'>Por vencer<td>
-
-                    <div class='btn-group'>
-
-                    <button class='btn bg-light-blue-active btnDevolverVenta' title = 'Devolver Producto' estadoVenta='NR' idVenta='" . $value["id"] . "'><i class='fa fa-retweet'></i></button>
-
-                    <button class='btn btn-twitter btnRenovarVenta' title = 'Renovar' estadoVenta='R' idVenta='" . $value["id"] . "'><i class='fa fa-refresh'></i></button>
-
-                    <button class='btn btn-success btnContactar' title = 'Contactar cliente' producto='" . $descripcionProductos . "' fVencimiento='" . $value["vencimiento"] . "' nCliente='" . $respuestaCliente["nombre"] . "' cCliente='" . $respuestaCliente["telefono"] . "'><i class='fa fa-whatsapp'></i></button></b>";
-
-
-              }
-              echo '</td>
-        
-                  
-
-                </tr>';
-            }
-
-            ?>
-
-          </tbody>
+          
 
         </table>
 

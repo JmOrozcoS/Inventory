@@ -32,7 +32,7 @@
 
           <div class="box-header with-border"></div>
 
-          <form role="form" method="post" class="formularioSurtirInventario">
+          <form role="form" method="post" class="formularioSurtirInventarioR">
 
             <div class="box-body">
 
@@ -223,7 +223,7 @@
 
                         <div class="col-xs-2">
               
-                          <input type="number" class="form-control editarCantidadProducto" name="editarCantidadProducto" min="1" value="' . $value["cantidad"] . '" stock="' . $stockAntiguo . '" nuevoStock="' . $nuevoStock . '" required style="padding-left:5px" placeholder="0" style="padding-right:5px">
+                          <input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" value="' . $value["cantidad"] . '" stock="' . $stockAntiguo . '" nuevoStock="' . $nuevoStock . '" required style="padding-left:5px" placeholder="0" style="padding-right:5px">
 
                         </div>
 
@@ -253,7 +253,7 @@
                 BOTÓN PARA AGREGAR PRODUCTO
                 ======================================-->
 
-                <button type="button" class="btn btn-default hidden-lg btnAgregarProductoI">Agregar producto</button>
+                <button type="button" class="btn btn-default hidden-lg btnAgregarProductoIR">Agregar producto</button>
 
                 <hr>
 
@@ -427,7 +427,7 @@
 
           <div class="box-body">
 
-            <table class="table dt-responsive table-hover display tablaSurtirInventario tabla-redondeada" cellspacing="0"
+            <table class="table dt-responsive table-hover display tablaSurtirInventarioR tabla-redondeada" cellspacing="0"
               width="100%">
 
               <thead>

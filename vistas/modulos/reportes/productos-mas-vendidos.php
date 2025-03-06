@@ -11,7 +11,8 @@
 </style>
 
 <?php
-
+$item = null;
+$valor = null;
 
 $categorias = ControladorCategorias::ctrMostrarCategorias($item, $valor);
 $totalCategorias = count($categorias);
@@ -39,7 +40,7 @@ PRODUCTOS MÁS VENDIDOS
             <div class="col-xs-12 col-md-5">
                 <div class="chart-legend clearfix nav nav-pills nav-stacked">
                     <?php
-                    for ($i = 0; $i < $totalCategorias; $i++) {
+                    for ($i = 0; $i < min(6, $totalCategorias); $i++) {
                         echo '<li>
                                 <a style="display: flex; align-items: center;">
                                     <img src="' . $VentasCategorias[$i]["imagen"] . '" class="product-img" width="50px" style="margin-right:10px">
@@ -76,7 +77,7 @@ PRODUCTOS MÁS VENDIDOS
 
         <?php
 
-        for ($i = 0; $i < $totalCategorias; $i++) {
+        for ($i = 0; $i < min(6, $totalCategorias); $i++) {
 
             echo "{
       value    : " . $VentasCategorias[$i]["total_ventas"] . ",

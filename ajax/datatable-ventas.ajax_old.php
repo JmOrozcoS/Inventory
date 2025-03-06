@@ -4,18 +4,18 @@ require_once "../controladores/productos.controlador.php";
 require_once "../modelos/productos.modelo.php";
 
 
-class TablaProductosGastosI{
+class TablaProductosVentas{
 
  	/*=============================================
  	 MOSTRAR LA TABLA DE PRODUCTOS
   	=============================================*/ 
 
-	public function mostrarTablaProductosGastosI(){
+	public function mostrarTablaProductosVentas(){
 
 		$item = null;
     	$valor = null;
 
-  		$productos = ControladorProductos::crtMostrarProductosActivados($item, $valor);	
+  		$productos = ControladorProductos::ctrMostrarProductosActivos($item, $valor);	
 		
   		if(count($productos) == 0){
 
@@ -87,6 +87,6 @@ class TablaProductosGastosI{
 /*=============================================
 ACTIVAR TABLA DE PRODUCTOS
 =============================================*/ 
-$activarProductosGastosI = new TablaProductosGastosI();
-$activarProductosGastosI -> mostrarTablaProductosGastosI();
+$activarProductosVentas = new TablaProductosVentas();
+$activarProductosVentas -> mostrarTablaProductosVentas();
 

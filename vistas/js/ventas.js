@@ -1,17 +1,17 @@
 /*=============================================
 CARGAR LA TABLA DINÁMICA DE VENTAS
 =============================================*/
+/*
+ $.ajax({
 
-// $.ajax({
+ 	url: "ajax/datatable-costos.ajax.php",
+	success:function(respuesta){
 
-// 	url: "ajax/datatable-ventas.ajax.php",
-// 	success:function(respuesta){
+		console.log("respuesta", respuesta);
 
-// 		console.log("respuesta", respuesta);
+ 	}
 
-// 	}
-
-// })
+ })
 
 
 /*=============================================
@@ -63,9 +63,43 @@ $(document).ready(function () {
 });
 
 
-
+// Tabla de modulo nueva venta
 $('.tablaVentas').DataTable({
-	"ajax": "ajax/datatable-ventas.ajax.php",
+	"ajax": "ajax/datatable-productos-ventas.ajax.php",
+	"deferRender": true,
+	"retrieve": true,
+	"processing": true,
+	"language": {
+
+		"sProcessing": "Procesando...",
+		"sLengthMenu": "Mostrar _MENU_ registros",
+		"sZeroRecords": "No se encontraron resultados",
+		"sEmptyTable": "Ningún dato disponible en esta tabla",
+		"sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+		"sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0",
+		"sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+		"sInfoPostFix": "",
+		"sSearch": "Buscar:",
+		"sUrl": "",
+		"sInfoThousands": ",",
+		"sLoadingRecords": "Cargando...",
+		"oPaginate": {
+			"sFirst": "Primero",
+			"sLast": "Último",
+			"sNext": "Siguiente",
+			"sPrevious": "Anterior"
+		},
+		"oAria": {
+			"sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+			"sSortDescending": ": Activar para ordenar la columna de manera descendente"
+		}
+
+	}
+
+});
+
+$('.tablaAlquiler').DataTable({
+	"ajax": "ajax/datatable-alquiler.ajax.php",
 	"deferRender": true,
 	"retrieve": true,
 	"processing": true,
@@ -266,9 +300,9 @@ $(".formularioVenta").on("click", "button.quitarProducto", function () {
 
 	localStorage.setItem("quitarProducto", JSON.stringify(idQuitarProducto));
 
-	$("button.recuperarBoton[idProducto='" + idProducto + "']").removeClass('btn-default');
+	/*$("button.recuperarBoton[idProducto='" + idProducto + "']").removeClass('btn-default');
 
-	$("button.recuperarBoton[idProducto='" + idProducto + "']").addClass('btn-primary agregarProducto');
+	$("button.recuperarBoton[idProducto='" + idProducto + "']").addClass('btn-primary agregarProducto');*/
 
 	if ($(".nuevoProducto").children().length == 0) {
 
@@ -1024,7 +1058,7 @@ function listarTipoCosto() {
 /*=============================================
 BOTON EDITAR VENTA
 =============================================*/
-$(".tablas").on("click", ".btnEditarVenta", function () {
+$(".tablaVentasListado").on("click", ".btnEditarVenta", function () {
 
 	var idVenta = $(this).attr("idVenta");
 
@@ -1040,7 +1074,7 @@ $(".tablas").on("click", ".btnEditarVenta", function () {
 /*=============================================
 BOTON RENOVAR VENTA
 =============================================*/
-$(".tablas").on("click", ".btnRenovarVenta", function () {
+$(".tablaAlquiler").on("click", ".btnRenovarVenta", function () {
 
 	var idVenta = $(this).attr("idVenta");
 
@@ -1117,7 +1151,7 @@ $(document).ready(function () {
 /*=============================================
 BOTON DEVOLVER VENTA
 =============================================*/
-$(".tablas").on("click", ".btnDevolverVenta", function () {
+$(".tablaAlquiler").on("click", ".btnDevolverVenta", function () {
 
 	var idVenta = $(this).attr("idVenta");
 	var estadoVenta = $(this).attr("estadoVenta");
@@ -1198,7 +1232,7 @@ $(".tablas").on("click", ".btnDevolverVenta", function () {
 ENVIAR MENSAJE DE RECORDATORIO AL CLIENTE
 =============================================*/
 
-$(".tablas").on("click", ".btnContactar", function () {
+$(".tablaAlquiler").on("click", ".btnContactar", function () {
 	//Obtener nombre cliente
 	var nombreC = $(this).attr("nCliente");
 	// Divide el texto en palabras
@@ -1302,7 +1336,7 @@ $('.tablaVentas').on('draw.dt', function () {
 /*=============================================
 BORRAR VENTA
 =============================================*/
-$(".tablas").on("click", ".btnEliminarVenta", function () {
+$(".tablaVentasListado").on("click", ".btnEliminarVenta", function () {
 
 	var idVenta = $(this).attr("idVenta");
 
@@ -1326,41 +1360,137 @@ $(".tablas").on("click", ".btnEliminarVenta", function () {
 })
 
 
-/*=============================================
-RANGO DE FECHAS
-=============================================*/
 
-$("#daterange-btn").daterangepicker(
-	{
-		ranges: {
-			'Hoy': [moment(), moment()],
-			'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-			'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
-			'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
-			'Este mes': [moment().startOf('month'), moment().endOf('month')],
-			'Último mes': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-		},
-		startDate: moment(),
-		endDate: moment()
-	},
-	function (start, end) {
-		$('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+$(document).ready(function() {
+    // Definir fechas predeterminadas
+    var startDate = moment().subtract(29, 'days'); // Últimos 30 días
+    var endDate = moment(); // Hoy
 
-		var fechaInicial = start.format('YYYY-MM-DD');
+    // Inicializar el DataTable
+    var tablaCostos = $('.tablaCostos').DataTable({
+        "deferRender": true,
+        "retrieve": true,
+        "processing": true,
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    });
 
-		var fechaFinal = end.format('YYYY-MM-DD');
+	// Inicializar el DataTable
+    var tablaVentas = $('.tablaVentasListado').DataTable({
+        "deferRender": true,
+        "retrieve": true,
+        "processing": true,
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    });
 
-		var capturarRango = $("#daterange-btn span").html();
+	// Inicializar el DataTable
+    var tablaGastos = $('.tablaGastos').DataTable({
+        "deferRender": true,
+        "retrieve": true,
+        "processing": true,
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        }
+    });
 
-		localStorage.setItem("capturarRango", capturarRango);
 
-		window.location = "index.php?ruta=ventas&fechaInicial=" + fechaInicial + "&fechaFinal=" + fechaFinal;
+    // Inicializar el daterangepicker
+    $("#daterange-btn").daterangepicker(
+        {
+            ranges: {
+                'Hoy': [moment(), moment()],
+                'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
+                'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+                'Este mes': [moment().startOf('month'), moment().endOf('month')],
+                'Último mes': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+				//'Este año': [moment().startOf('year'), moment()],
+                //'Último año': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
+            },
+            startDate: startDate,
+            endDate: endDate
+        },
+        function(start, end) {
+            $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
 
-	}
+            var fechaInicial = start.format('YYYY-MM-DD');
+            var fechaFinal = end.format('YYYY-MM-DD');
 
-)
+            // Actualiza la configuración del DataTable para que use los nuevos parámetros de fecha
+            tablaVentas.ajax.url('ajax/datatable-ventaslistado.ajax.php?fechaInicial=' + fechaInicial + '&fechaFinal=' + fechaFinal).load();
+			tablaCostos.ajax.url('ajax/datatable-costos.ajax.php?fechaInicial=' + fechaInicial + '&fechaFinal=' + fechaFinal).load();
+			tablaGastos.ajax.url('ajax/datatable-gastos.ajax.php?fechaInicial=' + fechaInicial + '&fechaFinal=' + fechaFinal).load();
 
-/*=============================================
+			// Depura la respuesta del servidor en la consola
+			//console.log("Respuesta del servidor:", tablaCostos);
+        }
+		
+    );
+
+	/*=============================================
 CANCELAR RANGO DE FECHAS
 =============================================*/
 
@@ -1371,63 +1501,20 @@ $(".daterangepicker.opensleft .range_inputs .cancelBtn").on("click", function ()
 	window.location = "ventas";
 })
 
-/*=============================================
-CAPTURAR HOY
-=============================================*/
+    // Configurar el texto inicial del botón con las fechas predeterminadas
+    $('#daterange-btn span').html(startDate.format('MMMM D, YYYY') + ' - ' + endDate.format('MMMM D, YYYY'));
 
-$(".daterangepicker.opensleft .ranges li").on("click", function () {
-
-	var textoHoy = $(this).attr("data-range-key");
-
-	if (textoHoy == "Hoy") {
-
-		var d = new Date();
-
-		var dia = d.getDate();
-		var mes = d.getMonth() + 1;
-		var año = d.getFullYear();
-
-		// if(mes < 10){
-
-		// 	var fechaInicial = año+"-0"+mes+"-"+dia;
-		// 	var fechaFinal = año+"-0"+mes+"-"+dia;
-
-		// }else if(dia < 10){
-
-		// 	var fechaInicial = año+"-"+mes+"-0"+dia;
-		// 	var fechaFinal = año+"-"+mes+"-0"+dia;
-
-		// }else if(mes < 10 && dia < 10){
-
-		// 	var fechaInicial = año+"-0"+mes+"-0"+dia;
-		// 	var fechaFinal = año+"-0"+mes+"-0"+dia;
-
-		// }else{
-
-		// 	var fechaInicial = año+"-"+mes+"-"+dia;
-		//    	var fechaFinal = año+"-"+mes+"-"+dia;
-
-		// }
-
-		dia = ("0" + dia).slice(-2);
-		mes = ("0" + mes).slice(-2);
-
-		var fechaInicial = año + "-" + mes + "-" + dia;
-		var fechaFinal = año + "-" + mes + "-" + dia;
-
-		localStorage.setItem("capturarRango", "Hoy");
-
-		window.location = "index.php?ruta=ventas&fechaInicial=" + fechaInicial + "&fechaFinal=" + fechaFinal;
-
-	}
-
-})
+    // Cargar la tabla con el rango de fechas predeterminado al cargar la página
+	tablaVentas.ajax.url('ajax/datatable-ventaslistado.ajax.php?fechaInicial=' + startDate.format('YYYY-MM-DD') + '&fechaFinal=' + endDate.format('YYYY-MM-DD')).load();
+	tablaCostos.ajax.url('ajax/datatable-costos.ajax.php?fechaInicial=' + startDate.format('YYYY-MM-DD') + '&fechaFinal=' + endDate.format('YYYY-MM-DD')).load();
+    tablaGastos.ajax.url('ajax/datatable-gastos.ajax.php?fechaInicial=' + startDate.format('YYYY-MM-DD') + '&fechaFinal=' + endDate.format('YYYY-MM-DD')).load();
+});
 
 
 /*=============================================
 IMPRIMIR FACTURA
 =============================================*/
-$(".tablas").on("click", ".btnImprimirVenta", function () {
+$(".tablaVentasListado").on("click", ".btnImprimirVenta", function () {
 
 	var codigoVenta = $(this).attr("codigoVenta");
 

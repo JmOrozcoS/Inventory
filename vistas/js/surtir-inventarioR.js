@@ -1,35 +1,6 @@
-/*=============================================
-CARGAR LA TABLA DINÁMICA DE VENTAS
-=============================================*/
-
-$.ajax({
-
-	url: "ajax/datatable-surtir-inventario.ajax.php",
-	success: function (respuesta) {
-
-		//console.log("respuesta", respuesta);
-
-	}
-
-})
-
-/*=============================================
-SELECT2
-=============================================*/
-
-$(document).ready(function () {
-	// Inicializar el select con Select2 
-	$("#seleccionarProveedor").select2({
-		placeholder: "Selecionar Proveedor", // Texto del placeholder
-		width: '100%', // Establece el ancho
-		height: '60px' // Establece la altura
-	});
-
-});
 
 
-
-$('.tablaSurtirInventario').DataTable({
+$('.tablaSurtirInventarioR').DataTable({
 	"ajax": "ajax/datatable-surtir-inventario.ajax.php",
 	"deferRender": true,
 	"retrieve": true,
@@ -68,7 +39,7 @@ $('.tablaSurtirInventario').DataTable({
 AGREGANDO PRODUCTOS A LA VENTA DESDE LA TABLA
 =============================================*/
 
-$(".tablaSurtirInventario tbody").on("click", "button.agregarProducto", function () {
+$(".tablaSurtirInventarioR tbody").on("click", "button.agregarProducto", function () {
 
 	//capturar ID
 	var idProducto = $(this).attr("idProducto");
@@ -142,7 +113,7 @@ $(".tablaSurtirInventario tbody").on("click", "button.agregarProducto", function
 
 				'<div class="col-xs-2">' +
 
-				'<input type="number" class="form-control nuevaCantidadProducto" style="padding:0px 4px" name="nuevaCantidadProducto" min="1" value="1" stock="' + stock + '" nuevoStock="' + Number(stock + 1) + '" required style="padding-left:5px" placeholder="0" style="padding-right:5px" required>' +
+				'<input type="number" class="form-control nuevaCantidadProducto" style="padding:0px 4px" name="nuevaCantidadProducto" min="1" value="0" stock="' + stock + '" nuevoStock="' + Number(stock + 1) + '" required style="padding-left:5px" placeholder="0" style="padding-right:5px" required>' +
 
 				'</div>' +
 
@@ -172,7 +143,7 @@ $(".tablaSurtirInventario tbody").on("click", "button.agregarProducto", function
 
 			// AGRUPAR PRODUCTOS EN FORMATO JSON
 
-			listarProductos()
+			listarProductosC()
 
 			// PONER FORMATO AL PRECIO DE LOS PRODUCTOS
 
@@ -188,7 +159,7 @@ $(".tablaSurtirInventario tbody").on("click", "button.agregarProducto", function
 CUANDO CARGUE LA TABLA CADA VEZ QUE NAVEGUE EN ELLA
 =============================================*/
 
-$(".tablaSurtirInventario").on("draw.dt", function () {
+$(".tablaSurtirInventarioR").on("draw.dt", function () {
 
 	if (localStorage.getItem("quitarProducto") != null) {
 
@@ -216,7 +187,7 @@ var idQuitarProducto = [];
 
 localStorage.removeItem("quitarProducto");
 
-$(".formularioSurtirInventario").on("click", "button.quitarProducto", function () {
+$(".formularioSurtirInventarioR").on("click", "button.quitarProducto", function () {
 
 	$(this).parent().parent().parent().parent().remove();
 
@@ -263,7 +234,7 @@ $(".formularioSurtirInventario").on("click", "button.quitarProducto", function (
 
 		// AGRUPAR PRODUCTOS EN FORMATO JSON
 
-		listarProductos()
+		listarProductosC()
 
 	}
 
@@ -271,7 +242,7 @@ $(".formularioSurtirInventario").on("click", "button.quitarProducto", function (
 
 
 
-$(".btnAgregarProductoI").click(function () {
+$(".btnAgregarProductoIR").click(function () {
     numProducto++;
 
     var datos = new FormData();
@@ -299,7 +270,7 @@ $(".btnAgregarProductoI").click(function () {
                 '   </div>' +
                 '   <!-- Cantidad del producto -->' +
                 '   <div class="col-xs-2 ingresoCantidad">' +
-                '       <input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" value="1" stock nuevoStock required style="padding:0px 4px" placeholder="0">' +
+                '       <input type="number" class="form-control nuevaCantidadProducto" name="nuevaCantidadProducto" min="1" value="0" stock nuevoStock required style="padding:0px 4px" placeholder="0">' +
                 '   </div>' +
                 '   <!-- Precio del producto -->' +
                 '   <div class="col-xs-4 ingresoPrecio" style="padding-left:0px">' +
@@ -354,7 +325,7 @@ $(".btnAgregarProductoI").click(function () {
 SELECCIONAR PRODUCTO
 =============================================*/
 
-$(".formularioSurtirInventario").on("change", "select.nuevaDescripcionProducto", function () {
+$(".formularioSurtirInventarioR").on("change", "select.nuevaDescripcionProducto", function () {
 
 	var nombreProducto = $(this).val();
 
@@ -387,7 +358,7 @@ $(".formularioSurtirInventario").on("change", "select.nuevaDescripcionProducto",
 
 			// AGRUPAR PRODUCTOS EN FORMATO JSON
 
-			listarProductos()
+			listarProductosC()
 
 		}
 
@@ -398,7 +369,7 @@ $(".formularioSurtirInventario").on("change", "select.nuevaDescripcionProducto",
 MODIFICAR LA CANTIDAD Nuevo costo
 =============================================*/
 
-$(".formularioSurtirInventario").on("change", "input.nuevaCantidadProducto", function () {
+$(".formularioSurtirInventarioR").on("change", "input.nuevaCantidadProducto", function () {
 
 	var precio = $(this).parent().parent().children(".ingresoPrecio").children().children(".nuevoPrecioProducto");
 
@@ -406,90 +377,10 @@ $(".formularioSurtirInventario").on("change", "input.nuevaCantidadProducto", fun
 
 	precio.val(precioFinal);
 
-	var nuevoStock = Number($(this).attr("stock")) + Number($(this).val());
-
-	$(this).attr("nuevoStock", nuevoStock);
-
-	/*if (Number($(this).val()) > Number($(this).attr("stock"))) {
-
-		/*=============================================
-		SI LA CANTIDAD ES SUPERIOR AL STOCK REGRESAR VALORES INICIALES
-		=============================================
-
-		$(this).val(1);
-
-		var precioFinal = $(this).val() * precio.attr("precioReal");
-
-		precio.val(precioFinal);
-
-		sumarTotalPrecios();
-
-		swal({
-			title: "La cantidad supera el Stock",
-			text: "¡Sólo hay " + $(this).attr("stock") + " unidades!",
-			type: "error",
-			confirmButtonText: "¡Cerrar!"
-		});
-
-		return;
-
-	}*/
-
-	// SUMAR TOTAL DE PRECIOS
-
-	sumarTotalPrecios()
-
-	// AGREGAR Descuento
-
-	agregarDescuento()
-
-	// AGRUPAR PRODUCTOS EN FORMATO JSON
-
-	listarProductos()
-
-})
-
-
-/*=============================================
-MODIFICAR LA CANTIDAD Renovacion de costo
-=============================================*/
-
-$(".formularioSurtirInventario").on("change", "input.editarCantidadProducto", function () {
-
-	var precio = $(this).parent().parent().children(".ingresoPrecio").children().children(".nuevoPrecioProducto");
-
-	var precioFinal = $(this).val() * precio.attr("precioReal");
-
-	precio.val(precioFinal);
-
+	//var nuevoStock = Number($(this).attr("stock")) + Number($(this).val());
 	var nuevoStock = Number($(this).attr("stock")) + Number($(this).val()) - Number($(this).attr("value"));
 
 	$(this).attr("nuevoStock", nuevoStock);
-
-	/*if (Number($(this).val()) > Number($(this).attr("stock"))) {
-
-		/*=============================================
-		SI LA CANTIDAD ES SUPERIOR AL STOCK REGRESAR VALORES INICIALES
-		=============================================
-
-		$(this).val(1);
-
-		var precioFinal = $(this).val() * precio.attr("precioReal");
-
-		precio.val(precioFinal);
-
-		sumarTotalPrecios();
-
-		swal({
-			title: "La cantidad supera el Stock",
-			text: "¡Sólo hay " + $(this).attr("stock") + " unidades!",
-			type: "error",
-			confirmButtonText: "¡Cerrar!"
-		});
-
-		return;
-
-	}*/
 
 	// SUMAR TOTAL DE PRECIOS
 
@@ -505,7 +396,6 @@ $(".formularioSurtirInventario").on("change", "input.editarCantidadProducto", fu
 
 })
 
-
 /*=============================================
 LISTAR TODOS LOS PRODUCTOS
 =============================================*/
@@ -516,7 +406,7 @@ function listarProductosC() {
 
 	var descripcion = $(".nuevaDescripcionProducto");
 
-	var cantidad = $(".editarCantidadProducto");
+	var cantidad = $(".nuevaCantidadProducto");
 
 	var precio = $(".nuevoPrecioProducto");
 
@@ -549,7 +439,7 @@ function quitarAgregarProducto() {
 	var idProductos = $(".quitarProducto");
 
 	//Capturamos todos los botones de agregar que aparecen en la tabla
-	var botonesTabla = $(".tablaSurtirInventario tbody button.agregarProducto");
+	var botonesTabla = $(".tablaSurtirInventarioR tbody button.agregarProducto");
 
 	//Recorremos en un ciclo para obtener los diferentes idProductos que fueron agregados a la venta
 	for (var i = 0; i < idProductos.length; i++) {
@@ -576,7 +466,7 @@ function quitarAgregarProducto() {
 CADA VEZ QUE CARGUE LA TABLA CUANDO NAVEGAMOS EN ELLA EJECUTAR LA FUNCIÓN:
 =============================================*/
 
-$('.tablaSurtirInventario').on('draw.dt', function () {
+$('.tablaSurtirInventarioR').on('draw.dt', function () {
 
 	quitarAgregarProducto();
 
@@ -587,7 +477,7 @@ $('.tablaSurtirInventario').on('draw.dt', function () {
 /*=============================================
 CAMBIO EN EFECTIVO
 =============================================*/
-$(".formularioSurtirInventario").on("change", "input#nuevoValorEfectivo", function () {
+$(".formularioSurtirInventarioR").on("change", "input#nuevoValorEfectivo", function () {
 
 	var efectivo = $(this).val();
 
@@ -602,7 +492,7 @@ $(".formularioSurtirInventario").on("change", "input#nuevoValorEfectivo", functi
 /*=============================================
 CAMBIO TRANSACCIÓN
 =============================================*/
-$(".formularioSurtirInventario").on("change", "input#nuevoCodigoTransaccion", function () {
+$(".formularioSurtirInventarioR").on("change", "input#nuevoCodigoTransaccion", function () {
 
 	// Listar método en la entrada
 	listarMetodos()
@@ -614,7 +504,7 @@ $(".formularioSurtirInventario").on("change", "input#nuevoCodigoTransaccion", fu
 /*=============================================
 CAMBIO TIPO DE VENTA
 =============================================*/
-$(".formularioSurtirInventario").on("change", "input#nuevoNombreCosto", function () {
+$(".formularioSurtirInventarioR").on("change", "input#nuevoNombreCosto", function () {
 
 
 	$("#listaNombreCosto").val($("#nuevoNombreCosto").val());
@@ -626,7 +516,7 @@ $(".formularioSurtirInventario").on("change", "input#nuevoNombreCosto", function
 /*=============================================
 METODO PAGO
 =============================================*/
-$(".formularioSurtirInventario").on("change", "input#nuevoMetodoPago", function () {
+$(".formularioSurtirInventarioR").on("change", "input#nuevoMetodoPago", function () {
 
 
 	$("#listaMetodoPago").val($("#nuevoMetodoPago").val());

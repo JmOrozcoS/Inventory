@@ -198,79 +198,74 @@ if ($_SESSION["perfil"] == "Especial") {
       </div>
 
       <style>
-        .nav-tabs-custom {
-            border-radius: 5px;
-            overflow: hidden;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        /* Estilo para la pestaña activa */
+        .nav-tabs-custom .nav-tabs .active a {
+          background-color: #f8f8f8;
+          /* Fondo de la pestaña activa */
+          color: #fff;
+          /* Color del texto de la pestaña activa */
+          border-color: #f8f8f8;
+          /* Borde de la pestaña activa */
         }
 
-        .nav-tabs-custom .nav-tabs {
-            border-bottom: none;
-            background-color: #f5f5f5;
-            
+        /* Estilo para las pestañas inactivas */
+        .nav-tabs-custom .nav-tabs li a {
+          background-color: #f8f8f8;
+          /* Fondo de las pestañas inactivas */
+          color: #333;
+          /* Color del texto de las pestañas inactivas */
+          border-color: #ccc;
+          /* Borde de las pestañas inactivas */
         }
 
-        .nav-tabs-custom .nav-tabs > li {
-            border-radius: 5px 5px 0 0;
+        /* Estilo para el contenido de las pestañas */
+        .nav-tabs-custom .tab-content {
+          border: 1px solid #ccc;
+          /* Borde alrededor del contenido */
+          border-top: none;
+          /* Elimina el borde superior */
+          border-radius: 0 0 4px 4px;
+          /* Bordes inferiores redondeados */
+          padding: 20px;
+          /* Espaciado interior del contenido de pestaña */
+          background-color: #fff;
+          /* Color de fondo del contenido de pestaña */
         }
+      </style>
 
-        .nav-tabs-custom .nav-tabs > li > a {
-            border-radius: 5px 5px 0 0;
-            /*margin-right: -1px;*/
-            background-color: #f5f5f5;
-            border: 1px solid #ddd;
-            font-size: 18;  /*Tamaño de fuente más grande */
-            font-weight: bold; /* Opcional: hacer el texto en negrita */
-            color: #666; /* Color del texto de la pestaña activa */
-            
-        }
 
-        .nav-tabs-custom .nav-tabs > li.active > a {
-            border-color: #ddd;
-            background-color: #fff;
-            border-bottom-color: transparent;
-            color: #666; /* Color del texto de la pestaña activa */
-        }
-
-        /* Ajustar las pestañas en pantallas pequeñas */
-        @media (max-width: 767px) {
-            .nav-tabs-custom .nav-tabs {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: space-around;
-            }
-
-            .nav-tabs-custom .nav-tabs > li {
-                flex: 1 1 auto;
-                text-align: center;
-                margin-bottom: -1px;
-            }
-
-            .nav-tabs-custom .nav-tabs > li > a {
-                border-radius: 0;
-                margin-right: 0;
-                border: 0px solid #ddd;
-               
-            }
-        }
-
-     
-    </style>
-    
-      
       <!-- Custom Tabs -->
       <div class="nav-tabs-custom">
+        <!-- Para dispositivos pequeños -->
+        <div class="btn-group btn-group-justified visible-xs">
+          <a href="#tab_1" data-toggle="tab" class="btn btn-default">
+            <H4><b style="color: #526c77;">VENTAS</b></H4>
+          </a>
+          <a href="#tab_2" data-toggle="tab" class="btn btn-default">
+            <H4><b style="color: #526c77;">COSTOS</b></H4>
+          </a>
+          <a href="#tab_3" data-toggle="tab" class="btn btn-default">
+            <H4><b style="color: #526c77;">GASTOS</b></H4>
+          </a>
+        </div>
 
-        <ul class="nav nav-tabs nav-justified">
-          <li role="presentation" class="active"><a href="#tab_1" data-toggle="tab">VENTAS</a></li>
-          <li role="presentation"><a href="#tab_2" data-toggle="tab">COSTOS</a></li>
-          <li role="presentation"><a href="#tab_3" data-toggle="tab">GASTOS</a></li>
-        </ul>
-        
+        <!-- Para dispositivos grandes -->
+        <div class="btn-group btn-group-justified hidden-xs">
+          <a href="#tab_1" data-toggle="tab" class="btn btn-default">
+            <H4><b style="color: #526c77;">VENTAS</b></H4>
+          </a>
+          <a href="#tab_2" data-toggle="tab" class="btn btn-default">
+            <H4><b style="color: #526c77;">COSTOS</b></H4>
+          </a>
+          <a href="#tab_3" data-toggle="tab" class="btn btn-default">
+            <H4><b style="color: #526c77;">GASTOS</b></H4>
+          </a>
+        </div>
+
         <div class="tab-content">
           <div class="tab-pane active" id="tab_1">
 
-            <table class="table dt-responsive tabla-redondeada tablaVentasListado" width="100%">
+            <table class="table dt-responsive tablas tablaVentas tabla-redondeada" width="100%">
 
               <thead>
 
@@ -290,7 +285,81 @@ if ($_SESSION["perfil"] == "Especial") {
 
               </thead>
 
-              
+              <tbody>
+
+                <?php
+
+                if (isset($_GET["fechaInicial"])) {
+
+                  $fechaInicial = $_GET["fechaInicial"];
+                  $fechaFinal = $_GET["fechaFinal"];
+
+                } else {
+
+                  $fechaInicial = null;
+                  $fechaFinal = null;
+
+                }
+
+                $respuesta = ControladorVentas::ctrRangoFechasVentas($fechaInicial, $fechaFinal);
+
+                foreach ($respuesta as $key => $valueV) {
+
+
+                  echo '<tr>
+ 
+                   <td>' . ($key + 1) . '</td>
+ 
+                   <td>' . $valueV["codigo"] . '</td>';
+
+                  $itemCliente = "id";
+                  $valorCliente = $valueV["id_cliente"];
+
+                  $respuestaCliente = ControladorClientes::ctrMostrarClientes($itemCliente, $valorCliente);
+
+                  echo '<td>' . $respuestaCliente["nombre"] . '</td>';
+
+                  $itemUsuario = "id";
+                  $valorUsuario = $valueV["id_vendedor"];
+
+                  $respuestaUsuario = ControladorUsuarios::ctrMostrarUsuarios($itemUsuario, $valorUsuario);
+
+                  echo '<td>' . $respuestaUsuario["nombre"] . '</td>
+ 
+                   <td>' . $valueV["metodo_pago"] . '</td>
+ 
+                   <td>$ ' . number_format($valueV["neto"], 2) . '</td>
+ 
+                   <td>$ ' . number_format($valueV["total"], 2) . '</td>
+ 
+                   <td>' . $valueV["fecha_crea"] . '</td>
+ 
+                   <td>
+ 
+                     <div class="btn-group">
+                         
+                       <button class="btn btn-info btnImprimirVenta" 
+                       codigoVenta="'. $valueV["codigo"] . '"><i class="fa fa-print"></i></button>';
+
+                  if ($_SESSION["perfil"] == "Administrador") {
+
+                    //La edicion de la venta se encuentra en revision, ya que debe anularse con nota credito segun DIAN
+                    //echo '<button class="btn btn-warning btnEditarVenta" idVenta="' . $valueV["id"] . '" data-toggle="modal" data-target="#modalEditarVenta"><i class="fa fa-edit"></i></button>';
+                
+                    //echo '<button class="btn btn-danger btnEliminarVenta" idVenta="' . $valueV["id"] . '"><i class="fa fa-trash"></i></button>';
+
+                  }
+
+                  echo '</div>  
+ 
+                   </td>
+ 
+                 </tr>';
+                }
+
+                ?>
+
+              </tbody>
 
             </table>
 
@@ -311,7 +380,7 @@ if ($_SESSION["perfil"] == "Especial") {
 
           <div class="tab-pane" id="tab_2">
 
-            <table class="table dt-responsive tablaCostos tabla-redondeada" width="100%">
+            <table class="table dt-responsive tablas tablaCostos tabla-redondeada" width="100%">
 
               <thead>
 
@@ -334,6 +403,201 @@ if ($_SESSION["perfil"] == "Especial") {
 
               </thead>
 
+              <tbody>
+
+                <?php
+
+                if (isset($_GET["fechaInicial"])) {
+
+                  $fechaInicial = $_GET["fechaInicial"];
+                  $fechaFinal = $_GET["fechaFinal"];
+
+                } else {
+
+                  $fechaInicial = null;
+                  $fechaFinal = null;
+
+                }
+
+                $respuesta = ControladorCostos::ctrRangoFechasCostos($fechaInicial, $fechaFinal);
+
+
+                foreach ($respuesta as $key => $valueC) {
+
+
+                  echo '<tr>
+ 
+                   <td>' . ($key + 1) . '</td>
+ 
+                   <td>' . $valueC["codigo"] . '</td>';
+
+                  $itemProveedorC = "id";
+                  $valorProveedorC = $valueC["id_proveedor"];
+
+                  $respuestaProveedorC = ControladorProveedores::ctrMostrarProveedores($itemProveedorC, $valorProveedorC);
+
+                  echo '<td>' . $respuestaProveedorC["nombre"] . '</td>';
+
+                  //Obtener la celda de productos
+                  $json = $valueC["productos"];
+
+                  // Decodificar el JSON de productos
+                  $productos = json_decode($json, true);
+
+                  // Inicializar una variable para concatenar descripciones de productos
+                  $descripcionProductos = '';
+
+                  foreach ($productos as $producto) {
+                    $descripcionProductos .= $producto['descripcion'] . '<br> ';
+                  }
+
+                  // Eliminar la coma y el espacio al final de la cadena
+                  $descripcionProductos = rtrim($descripcionProductos, ', ');
+
+                  // Mostrar las descripciones de productos en la celda
+                  echo '<td>' . $descripcionProductos . '</td>
+
+                    <td>' . $valueC["nombre_costo"] . '</td>
+
+ 
+                   <td>$ ' . number_format($valueC["total"], 2) . '</td>
+
+
+                  <td>' . $valueC["metodo_pago"] . '</td>';
+
+
+
+                  $itemUsuario = "id";
+                  $valorUsuario = $valueC["id_usuario"];
+
+                  $respuestaUsuario = ControladorUsuarios::ctrMostrarUsuarios($itemUsuario, $valorUsuario);
+
+                  echo '<td>' . $respuestaUsuario["nombre"] . '</td>
+ 
+                   <td>' . $valueC["fecha_crea"] . '</td>
+
+                   <td>' . $valueC["vencimiento"] . '</td>';
+
+                   $fecha_actual = new DateTime();
+
+              $fecha_Vencimiento = new DateTime($valueC['vencimiento']);
+              ;
+
+              $intervalo = $fecha_actual->diff($fecha_Vencimiento);
+
+
+              echo '<td>';
+
+
+              if ($valueC['estado'] == "" && $valueC['vencimiento'] == "0000-00-00 00:00:00") {
+                echo "<b class='custom-label'>N/A<td>
+
+                  <div align='center' valign='middle'><i class='fa fa-exclamation-circle'></i></div>
+
+                  </b>";
+
+                } elseif ($valueC['estado'] == "NR") {
+                echo "<b class='custom-label'>Devuelto<td>
+
+                <div align='center' valign='middle'><i class='fa fa-exclamation-circle'></i></div>
+
+                    </b>";
+              } elseif ($valueC['estado'] == "R") {
+                echo "<b class='label label-primary'>Renovado<td>
+
+                <div align='center' valign='middle'><i class='fa fa-exclamation-circle'></i></div>
+
+
+                    </b>";
+              } elseif ($fecha_Vencimiento >= $fecha_actual & $intervalo->days >= 6) {
+                echo "<b class='label label-success'>Vigente<td>
+
+                    <div class='btn-group'>
+
+                    <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
+
+                    </b>";
+              } elseif ($fecha_Vencimiento <= $fecha_actual) {
+                echo "<b class='label label-danger'>VENCIDO<td>
+
+                    <div class='btn-group'>
+
+                    <button class='btn bg-light-blue-active btnDevolverCosto' title = 'Devolver Producto' estadoCosto='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
+                    <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
+                    </b>";
+
+
+              } elseif ($intervalo->days <= 6) {
+
+                 if ($_SESSION["perfil"] == "Administrador") {
+                echo "<b class='label label-warning'>Por vencer<td>
+
+                    <div class='btn-group'>
+                
+      
+                    <button class='btn bg-light-blue-active btnDevolverCosto' title = 'Devolver Producto' estadoCosto='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
+
+                    <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
+                    
+                    <!--<button class='btn btn-danger btnEliminarCosto' idCosto='" . $valueC["id"] . "'><i class='fa fa-trash'></i></button>-->
+
+                    </b>";
+
+                    
+                 }else{
+                  echo "<b class='label label-warning'>Por vencer<td>
+
+                    <div class='btn-group'>
+                
+      
+                    <button class='btn bg-light-blue-active btnDevolverCosto' title = 'Devolver Producto' estadoCosto='NR' idCosto='" . $valueC["id"] . "'><i class='fa fa-retweet'></i></button>
+
+                    <button class='btn btn-twitter btnRenovarCosto' title = 'Renovar' estadoCosto='R' idCosto='" . $valueC["id"] . "'><i class='fa fa-refresh'></i></button>
+
+                    </b>";
+
+                 }
+
+              }
+              echo '</td>
+        
+                  
+
+                </tr>';
+            }
+
+                   /*
+ 
+                   <td>
+ 
+                     <div class="btn-group">
+                         
+                       <button class="btn btn-info"><i class="fa fa-print"></i></button>';
+
+                  if ($_SESSION["perfil"] == "Administrador") {
+
+                    //La edicion del costo se encuentra en revision, ya que no se ha podido implementar una manera de no alterar el inventario
+                    //echo '<button class="btn btn-warning btnEditarCosto" idCosto="' . $valueC["id"] . '"><i class="fa fa-edit"></i></button>';
+                
+
+
+                    echo '<button class="btn btn-danger btnEliminarCosto" idCosto="' . $valueC["id"] . '"><i class="fa fa-trash"></i></button>';
+
+                  }
+
+                  echo '</div>  
+ 
+                   </td>
+ 
+                 </tr>';
+                }
+
+                */
+
+                ?>
+
+              </tbody>
+
             </table>
 
             <?php
@@ -354,7 +618,7 @@ if ($_SESSION["perfil"] == "Especial") {
 
 
           <div class="tab-pane" id="tab_3">
-            <table class="table dt-responsive tablaGastos tabla-redondeada" width="100%">
+            <table class="table dt-responsive tablas tablaGastos tabla-redondeada" width="100%">
 
               <thead>
 
@@ -374,6 +638,155 @@ if ($_SESSION["perfil"] == "Especial") {
                 </tr>
 
               </thead>
+
+              <tbody>
+
+                <?php
+
+                if (isset($_GET["fechaInicial"])) {
+
+                  $fechaInicial = $_GET["fechaInicial"];
+                  $fechaFinal = $_GET["fechaFinal"];
+
+                } else {
+
+                  $fechaInicial = null;
+                  $fechaFinal = null;
+
+                }
+
+                $respuesta = ControladorGastos::ctrRangoFechasGastos($fechaInicial, $fechaFinal);
+
+                foreach ($respuesta as $key => $valueG) {
+
+
+                  echo '<tr>
+ 
+                   <td>' . ($key + 1) . '</td>
+                   <td>' . $valueG["codigo"] . '</td>';
+
+                  /*
+                   if ($valueG["categoria"] == 1) {
+                     echo '<td>Servicios públicos</td>';
+
+                   } elseif ($valueG["categoria"] == 2) {
+                     echo '<td>Compra de productos e insumos</td>';
+
+                   } elseif ($valueG["categoria"] == 3) {
+                     echo '<td>Arriendo</td>';
+
+                   } elseif ($valueG["categoria"] == 4) {
+                     echo '<td>Nómina</td>';
+
+                   } elseif ($valueG["categoria"] == 5) {
+                     echo '<td>Publicidad</td>';
+
+                   } else {
+                     echo '<td>Otro</td>';
+                   }*/
+
+                  echo '<td>' . $valueG["categoria"] . '</td>';
+
+                  // Obtener el valor del monto
+                  $monto = $valueG["monto"];
+
+                  // Determinar el color del texto
+                  $color = ($monto < 0) ? "green" : "red";
+
+                  // Agregar negrita al texto
+                  $texto = ($monto < 0) ? "<strong>$ " . number_format($monto, 2) . "</strong>" : "$ " . number_format($monto, 2);
+
+                  // Imprimir el valor formateado con el color determinado y negrita
+                  echo '<td style="color: ' . $color . '">'. $texto .'</td>
+
+                   <td>' . $valueG["nombre_gasto"] . '</td>';
+
+                  $itemProveedor = "id";
+                  $valorProveedor = $valueG["id_proveedor"];
+
+                  $respuestaProveedor = ControladorProveedores::ctrMostrarProveedores($itemProveedor, $valorProveedor);
+
+
+
+                  if ($valueG["id_proveedor"] == 0) {
+                    echo '<td> - </td>';
+                  } else {
+                    echo '<td>' . $respuestaProveedor["nombre"] . '</td>';
+                  }
+
+                  /* 
+                  if ($valueG["forma_pago"] == 1) {
+                    echo '<td>Efectivo</td>';
+
+                  } elseif ($valueG["forma_pago"] == 2) {
+                    echo '<td>Transferencia</td>';
+
+                  } elseif ($valueG["forma_pago"] == 3) {
+                    echo '<td>Tarjeta Crédito</td>';
+
+                  } elseif ($valueG["forma_pago"] == 4) {
+                    echo '<td>Tarjeta Débito</td>';
+
+                  } else {
+                    echo '<td>Otro</td>';
+                  }*/
+
+                  echo '<td>' . $valueG["forma_pago"] . '</td>';
+
+                  $itemUsuario = "id";
+                  $valorUsuario = $valueG["id_usuario"];
+
+                  $respuestaUsuario = ControladorUsuarios::ctrMostrarUsuarios($itemUsuario, $valorUsuario);
+
+                  echo '<td>' . $respuestaUsuario["nombre"] . '</td>
+               
+ 
+                   <td>' . $valueG["fecha_crea"] . '</td>
+ 
+                   <td>
+ 
+                     <div class="btn-group">  
+
+                     <button class="btn btn-info btnImprimirGasto"><i class="fa fa-print"></i></button>';
+
+                  if ($_SESSION["perfil"] == "Administrador") {
+
+                    // Calculate the date 30 days ago
+                    $thirtyDaysAgo = new DateTime('-30 days');
+                    $fechaCrea = new DateTime($valueG["fecha_crea"]);
+
+                    // Compare the date with today's date and 30 days ago
+                    if ($fechaCrea > $thirtyDaysAgo) {
+                      // If the date is more recent than 30 days ago, display the button
+                      echo '<button class="btn btn-warning btnEditarGasto" idGasto="' . $valueG["id"] . '" data-toggle="modal" data-target="#modalEditarGasto"><i class="fa fa-edit"></i></button>';
+
+                      echo '<button class="btn btn-danger btnEliminarGasto" idGasto="' . $valueG["id"] . '"><i class="fa fa-trash"></i></button>';
+                    }
+
+
+                  } elseif ($_SESSION["perfil"] == "Sub-Administrador") {
+                    // Calculate the date 30 days ago
+                    $thirtyDaysAgo = new DateTime('-30 days');
+                    $fechaCrea = new DateTime($valueG["fecha_crea"]);
+
+                    // Compare the date with today's date and 30 days ago
+                    if ($fechaCrea > $thirtyDaysAgo) {
+                      // If the date is more recent than 30 days ago, display the button
+                      echo '<button class="btn btn-warning btnEditarGasto" idGasto="' . $valueG["id"] . '" data-toggle="modal" data-target="#modalEditarGasto"><i class="fa fa-edit"></i></button>';
+                    }
+                  }
+
+
+                  echo '</div>  
+ 
+                   </td>
+ 
+                 </tr>';
+                }
+
+                ?>
+
+              </tbody>
 
             </table>
 

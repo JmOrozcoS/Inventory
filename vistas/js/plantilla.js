@@ -4,6 +4,41 @@ SideBar Menu
 
 $('.sidebar-menu').tree()
 
+$(document).ready(function() {
+    
+    // Ajustar el sidebar en función del tamaño de la pantalla
+    $(window).on('resize', function() {
+      if ($(window).width() < 768) { // Ajusta el umbral según tu diseño
+		$('body').removeClass('sidebar-collapse');
+      } else {
+        $('body').addClass('sidebar-collapse');
+      }
+    }).trigger('resize'); // Llama para aplicar el ajuste al cargar
+  });
+
+/*=============================================
+Logo
+=============================================*/
+
+$(document).ready(function() {
+	
+    function checkWidth() {
+
+		//oculta el logo en función del tamaño de la pantalla
+        if ($(window).width() <= 767) {
+            $('.logo').hide();
+        } else {
+            $('.logo').show();
+        }
+    }
+
+    // Ejecuta la función al cargar la página
+    checkWidth();
+
+    // Ejecuta la función cada vez que la ventana cambie de tamaño
+    $(window).resize(checkWidth);
+});
+
 
 /*=============================================
 Data Table

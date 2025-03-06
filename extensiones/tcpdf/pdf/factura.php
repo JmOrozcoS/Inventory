@@ -38,13 +38,6 @@ class imprimirFactura {
 
 		$respuestaCliente = ControladorClientes::ctrMostrarClientes($itemCliente, $valorCliente);
 
-		//TRAEMOS LA INFORMACIÓN DEL VENDEDOR
-
-		$itemVendedor = "id";
-		$valorVendedor = $respuestaVenta["id_vendedor"];
-
-		$respuestaVendedor = ControladorUsuarios::ctrMostrarUsuarios($itemVendedor, $valorVendedor);
-
         // REQUERIMOS LA CLASE TCPDF
         require_once('tcpdf_include.php');
 
@@ -59,24 +52,23 @@ class imprimirFactura {
         $bloque1 = <<<EOF
         <table>
             <tr>
+			<br>
                 <td style="width:150px"><img src="images/logo-negro-bloque.png"></td>
                 <td style="background-color:white; width:140px">
-                    <div style="font-size:8.5px; text-align:right; line-height:15px;">
-                        <br>
-                        NIT: 71.759.963-9
-                        <br>
-                        Dirección: Calle 44B 92-11
-                    </div>
+                    
                 </td>
                 <td style="background-color:white; width:140px">
-                    <div style="font-size:8.5px; text-align:right; line-height:15px;">
+                    <div style="font-size:8.5px; text-align:right; line-height:5px;">
+                        odteamshop@gmail.com
                         <br>
-                        Teléfono: +57 320 7919890
-                        <br>
-                        odteam@gmail.com
+						<br>
+                        WhatsApp: +57 320 7919890
                     </div>
                 </td>
-                <td style="background-color:white; width:110px; text-align:center; color:red"><br><br>FACTURA N.<br>$valorVenta</td>
+                <td style="background-color:white; width:110px; text-align:center; color:red">
+				<b>FACTURA</b><br><b>$valorVenta</b>
+				</td>
+
             </tr>
         </table>
 EOF;
@@ -95,14 +87,17 @@ $bloque2 = <<<EOF
 <table style="font-size:10px; padding:5px 10px;">
 	<tr>
 		<td style="border: 1px solid #666; background-color:white; width:390px">
-			Cliente: $respuestaCliente[nombre]
+			<b>Cliente:</b> $respuestaCliente[nombre]
 		</td>
 		<td style="border: 1px solid #666; background-color:white; width:150px; text-align:right">
-			Fecha: $fecha
+			<b>Fecha:</b> $fecha
 		</td>
 	</tr>
 	<tr>
-		<td style="border: 1px solid #666; background-color:white; width:540px">Vendedor: $respuestaVendedor[nombre]</td>
+		<td style="border: 1px solid #666; background-color:white; width:540px"><b>Direccion:</b> $respuestaCliente[direccion]</td>
+	</tr>
+    <tr>
+		<td style="border: 1px solid #666; background-color:white; width:540px"><b>Telefono:</b> $respuestaCliente[telefono]</td>
 	</tr>
 	<tr>
 	<td style="border-bottom: 1px solid #666; background-color:white; width:540px"></td>
@@ -117,18 +112,15 @@ $pdf->writeHTML($bloque2, false, false, false, false, '');
 
 $bloque3 = <<<EOF
 
-	<table style="font-size:10px; padding:5px 10px;">
-
+	<table style="font-size: 10px; padding: 5px 10px;">
 		<tr>
-		
-		<td style="border: 1px solid #666; background-color:white; width:260px; text-align:center">Producto</td>
-		<td style="border: 1px solid #666; background-color:white; width:80px; text-align:center">Cantidad</td>
-		<td style="border: 1px solid #666; background-color:white; width:100px; text-align:center">Valor Unit.</td>
-		<td style="border: 1px solid #666; background-color:white; width:100px; text-align:center">Valor Total</td>
-
+			<td style="border: 1px solid #666; background-color: #ccc; width: 260px; text-align: center; padding: 8px;"><b>Producto</b></td>
+			<td style="border: 1px solid #666; background-color: #ccc; width: 80px; text-align: center; padding: 8px;"><b>Cantidad</b></td>
+			<td style="border: 1px solid #666; background-color: #ccc; width: 100px; text-align: center; padding: 8px;"><b>Valor Unit.</b></td>
+			<td style="border: 1px solid #666; background-color: #ccc; width: 100px; text-align: center; padding: 8px;"><b>Valor Total</b></td>
 		</tr>
-
 	</table>
+
 
 EOF;
 
@@ -138,41 +130,44 @@ $pdf->writeHTML($bloque3, false, false, false, false, '');
 
 foreach ($productos as $key => $item) {
 
-	$itemProducto = "descripcion";
-	$valorProducto = $item["descripcion"];
-	$orden = null;
-	
-	$respuestaProducto = ControladorProductos::ctrMostrarProductos($itemProducto, $valorProducto, $orden);
-	
-	$valorUnitario = number_format($respuestaProducto["precio_venta"], 2);
-	
-	$precioTotal = number_format($item["total"], 2);
-	
-	$bloque4 = <<<EOF
-	
-		<table style="font-size:10px; padding:5px 10px;">
-			<tr>
-				<td style="border: 1px solid #666; color:#333; background-color:white; width:260px; text-align:center">
-					$item[descripcion]
-				</td>
-				<td style="border: 1px solid #666; color:#333; background-color:white; width:80px; text-align:center">
-					$item[cantidad]
-				</td>
-				<td style="border: 1px solid #666; color:#333; background-color:white; width:100px; text-align:center">$ 
-					$valorUnitario
-				</td>
-				<td style="border: 1px solid #666; color:#333; background-color:white; width:100px; text-align:center">$ 
-					$precioTotal
-				</td>
-			</tr>
-		</table>
-	
-	
-	EOF;
-	
-	$pdf->writeHTML($bloque4, false, false, false, false, '');
-	
-	}
+    $itemProducto = "id";
+    $valorProducto = $item["id"];
+
+    // Obtener información del producto
+    $respuestaProducto = ControladorProductos::ctrMostrarProductos($itemProducto, $valorProducto);
+
+    // Verificar si se obtuvo la información del producto correctamente
+    if ($respuestaProducto && isset($respuestaProducto["precio_venta"])) {
+        $valorUnitario = number_format($respuestaProducto["precio_venta"], 2);
+    } else {
+        $valorUnitario = "0"; // O cualquier valor por defecto que desees mostrar
+    }
+
+    $precioTotal = number_format($item["total"], 2);
+
+    // Construir el bloque HTML
+    $bloque4 = <<<EOF
+        <table style="font-size:10px; padding:5px 10px;">
+            <tr>
+                <td style="border: 1px solid #666; color:#333; background-color:white; width:260px; text-align:center">
+                    {$item['descripcion']}
+                </td>
+                <td style="border: 1px solid #666; color:#333; background-color:white; width:80px; text-align:center">
+                    {$item['cantidad']}
+                </td>
+                <td style="border: 1px solid #666; color:#333; background-color:white; width:100px; text-align:center">$ 
+                    {$valorUnitario}
+                </td>
+                <td style="border: 1px solid #666; color:#333; background-color:white; width:100px; text-align:center">$ 
+                    {$precioTotal}
+                </td>
+            </tr>
+        </table>
+    EOF;
+
+    // Escribir el bloque HTML en el PDF
+    $pdf->writeHTML($bloque4, false, false, false, false, '');
+}
 
 	// ---------------------------------------------------------
 
@@ -207,15 +202,52 @@ $bloque5 = <<<EOF
 		<td style="border: 1px solid #666; background-color:white; width:100px; text-align:center">
 			Total:
 		</td>
-		<td style="border: 1px solid #666; color:#333; background-color:white; width:100px; text-align:center">
-			$ $total
+		<td style="border: 1px solid #666; background-color: #ccc; width: 100px; text-align:center"><b>
+			$ $total</b>
 		</td>
 	</tr>
 </table>
+<br><br><br><br>
+<br>
 
 EOF;
 
 $pdf->writeHTML($bloque5, false, false, false, false, '');
+
+
+        // ---------------------------------------------------------
+        $bloque6 = <<<EOF
+        <table>
+            <tr>
+			<br>
+                <td style="background-color:white">
+                    <div style="font-size:10px; text-align:left width:140px">
+                        <b>Términos de garantía</b>
+                        <p style = "font-size:8px">El software alquilado está garantizado para funcionar correctamente durante el período de alquiler acordado. Cualquier problema técnico será solucionado de manera oportuna por nuestro equipo de soporte técnico. Esta garantía no cubre daños causados por el uso inapropiado del software por parte del usuario</p>
+                        
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <br><br><br><br><br><br><br><br><br>
+EOF;
+
+        $pdf->writeHTML($bloque6, false, false, false, false, '');
+
+		// ---------------------------------------------------------
+
+        // ---------------------------------------------------------
+        $bloque7 = <<<EOF
+        
+                    <div style="font-size:15px; text-align:center width:140px">
+                        <b>GRACIAS POR SU COMPRA</b>
+                    </div>
+              
+EOF;
+
+        $pdf->writeHTML($bloque7, false, false, false, false, '');
+
+		// ---------------------------------------------------------
 
 
 
